@@ -1,0 +1,6 @@
+requests
+websockets
+aiohttp
+numpy
+pytz
+pandas_ta
