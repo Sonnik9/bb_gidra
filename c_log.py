@@ -95,11 +95,11 @@ class Requests_Logger(Total_Logger):
             async with self.async_lock:
                 self.log_response_list.append(log_entry)
 
-    async def requests_logger(self, resp, asset_id, target, symbol=None):
+    async def requests_logger(self, resp, asset_id, target, symbol=None, side=None):
         """Обработка и логирование данных запроса."""
         if resp is None:
             # Логируем ошибку, если resp равен None
-            await self.log_error(target, "Response is None", "N/A")
+            await self.log_error(asset_id, target, "Response is None", "N/A", symbol)
             return None
 
         resp_j, status = await self.get_status_order_response(resp)
@@ -117,4 +117,4 @@ class Requests_Logger(Total_Logger):
             symbol
         )
 
-        return resp_j, asset_id, symbol
+        return resp_j, asset_id, symbol, side

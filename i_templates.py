@@ -36,41 +36,41 @@ class TEMP(DataController):
             # Логирование ошибки
             self.log_error_loger(f"Asset Id: {asset_id}. При попытке создания ордера возникла ошибка. Текст ответа:\n {order_answer}. Символ: {symbol}")
             return False
-
-        # Извлечение информации с безопасным доступом
-        asset_data = self.cashe_data_book_dict.get(asset_id, {}).get(symbol, {}).get(side, {})
-        is_opening = asset_data.get("is_opening", False)
-        is_closing = asset_data.get("is_closing", False)
-        
-        # Если ордер не был успешно обработан, сбрасываем флаги
-        if not orders_logger_handler():
-            if is_opening:
-                self.cashe_data_book_dict[asset_id][symbol][side]["in_position"] = False
-
-            self.cashe_data_book_dict[asset_id][symbol][side]["is_opening"] = False
-            self.cashe_data_book_dict[asset_id][symbol][side]["is_closing"] = False
-
-            return 
         
         # Обработка полученных данных
         side = order_answer.get("side", side).upper()
         executed_qty = float(order_answer.get("executedQty", 0.0))
         avg_price = float(order_answer.get("avgPrice", 0.0))
 
-        # Обновление данных в зависимости от типа ордера
-        if is_opening:
-            self.cashe_data_book_dict[asset_id][symbol][side]["in_position"] = True            
-            self.cashe_data_book_dict[asset_id][symbol][side]["comul_qty"] += executed_qty
-            self.cashe_data_book_dict[asset_id][symbol][side]["entry_point"] = avg_price
+        # Извлечение информации с безопасным доступом
+        asset_data = self.cashe_data_book_dict.get(asset_id, {}).get(symbol, {}).get(side, {})
+        is_opening = asset_data.get("is_opening", False)
+        is_closing = asset_data.get("is_closing", False)
 
-        elif is_closing:
-            self.cashe_data_book_dict[asset_id][symbol][side]["in_position"] = False          
-            self.cashe_data_book_dict[asset_id][symbol][side]["comul_qty"] = 0.0
-            self.cashe_data_book_dict[asset_id][symbol][side]["entry_point"] = 0.0
+        async with self.async_lock:
+            
+            # Если ордер не был успешно обработан, сбрасываем флаги
+            if not orders_logger_handler():
+                if is_opening:
+                    self.cashe_data_book_dict[asset_id][symbol][side]["in_position"] = False
+            else:
+                # Обновление данных в зависимости от типа ордера
+                if is_opening:
+                    self.cashe_data_book_dict[asset_id][symbol][side]["in_position"] = True            
+                    self.cashe_data_book_dict[asset_id][symbol][side]["comul_qty"] = executed_qty
+                    self.cashe_data_book_dict[asset_id][symbol][side]["entry_point"] = avg_price
+                    self.busy_symbols_set.add(symbol)
 
-        # Сброс флагов
-        self.cashe_data_book_dict[asset_id][symbol][side]["is_opening"] = False
-        self.cashe_data_book_dict[asset_id][symbol][side]["is_closing"] = False
+                elif is_closing:
+                    self.cashe_data_book_dict[asset_id][symbol][side]["in_position"] = False          
+                    self.cashe_data_book_dict[asset_id][symbol][side]["comul_qty"] = 0.0
+                    self.cashe_data_book_dict[asset_id][symbol][side]["entry_point"] = 0.0             
+                    self.busy_symbols_set.discard(symbol)
+                    self.hot_symbols[asset_id] = ""
+
+            # Сброс флагов
+            self.cashe_data_book_dict[asset_id][symbol][side]["is_opening"] = False
+            self.cashe_data_book_dict[asset_id][symbol][side]["is_closing"] = False
 
     # /////////////
     async def hedg_temp(self, session):

@@ -341,3 +341,209 @@
 
 #     async def process_signals(self, signals_dict, asset_id, token):
 #         await self.strategy.process_signals(signals_dict, asset_id, token)
+
+
+
+    # async def fetch_klines_for_symbols(self, session, asset_id, symbols, interval, fetch_limit=1):
+    #     async def fetch_kline(symbol, fetch_limit):
+    #         try:
+    #             return symbol, await self.get_klines(session, symbol, interval, fetch_limit)
+    #         except Exception as e:
+    #             print(f"Error fetching klines for {symbol}: {e}")
+    #             return symbol, None
+
+    #     # Создаем задачи для всех символов
+    #     tasks = [fetch_kline(symbol, fetch_limit) for symbol in symbols]
+
+    #     # Выполняем задачи параллельно
+    #     results = await asyncio.gather(*tasks, return_exceptions=True)
+
+    #     # Обновляем словарь клиний
+    #     for result in results:
+    #         if isinstance(result, tuple):
+    #             symbol, new_klines = result
+    #             if new_klines is None or new_klines.empty:
+    #                 print(f"No valid klines for {symbol}")
+    #                 continue
+
+    #             if asset_id not in self.klines_data_dict:
+    #                 self.klines_data_dict[asset_id] = {}
+    #             if symbol not in self.klines_data_dict[asset_id]:
+    #                 self.klines_data_dict[asset_id][symbol] = pd.DataFrame(
+    #                     columns=['Time', 'Open', 'High', 'Low', 'Close', 'Volume']
+    #                 )
+
+    #             if fetch_limit == 1:
+    #                 self.klines_data_dict[asset_id][symbol] = pd.concat(
+    #                     [self.klines_data_dict[asset_id][symbol], new_klines]
+    #                 ).drop_duplicates().tail(fetch_limit)
+    #             else:
+    #                 self.klines_data_dict[asset_id][symbol] = new_klines
+    #         else:
+    #             print(f"Exception occurred: {result}")
+
+
+
+    # async def get_klines(self, session, symbol, interval, limit, api_key=None):
+    #     """
+    #     Загружает данные свечей (klines) для заданного символа.
+    #     """
+    #     params = {
+    #         "symbol": symbol,
+    #         "interval": interval,
+    #         "limit": limit
+    #     }
+        
+    #     headers = {}
+    #     if api_key:
+    #         headers["X-MBX-APIKEY"] = api_key  # Добавляем ключ в заголовки
+
+    #     try:
+    #         async with session.get(self.klines_url, params=params, headers=headers) as response:
+    #             if response.status != 200:
+    #                 self.log_error_loger(f"Failed to fetch klines: {response.status}, symbol: {symbol}")
+    #                 return pd.DataFrame(columns=['Time', 'Open', 'High', 'Low', 'Close', 'Volume'])
+
+    #             klines = await response.json()
+    #             if not klines:
+    #                 return pd.DataFrame(columns=['Time', 'Open', 'High', 'Low', 'Close', 'Volume'])
+
+    #         # Преобразование данных в DataFrame
+    #         data = pd.DataFrame(klines).iloc[:, :6]
+    #         data.columns = ['Time', 'Open', 'High', 'Low', 'Close', 'Volume']
+    #         data['Time'] = pd.to_datetime(data['Time'], unit='ms')  # Преобразуем метки времени
+    #         data.set_index('Time', inplace=True)
+    #         return data.astype(float)
+
+    #     except Exception as ex:
+    #         self.log_error_loger(f"{ex} in {inspect.currentframe().f_code.co_name}")
+    #     return pd.DataFrame(columns=['Time', 'Open', 'High', 'Low', 'Close', 'Volume'])
+
+            
+
+            # in_position_long = self.cashe_data_book_dict[asset_id][symbol]["LONG"]["in_position"]
+            # in_position_short = self.cashe_data_book_dict[asset_id][symbol]["SHORT"]["in_position"]
+
+
+
+
+
+
+
+
+
+    # async def process_signals(self, session):
+    #     """Ищем торговые сигналы и интегрируем их в структуру данных."""
+    #     trades = []
+    #     for asset_id, asset in self.assets_dict.items():
+    #         trade_item = {}
+    #         symbols = asset.get('symbols', [])                
+    #         api_key = asset.get("BINANCE_API_PUBLIC_KEY")
+    #         api_secret = asset.get("BINANCE_API_PRIVATE_KEY")   
+
+    #         indicator_number = asset.get("indicator_number")     
+            
+    #         time_frame = asset.get(f"indicator_{indicator_number}").get("tfr_main")
+    #         fetch_limit = asset.get(f"indicator_{indicator_number}").get("bb_period")
+    #         std_rate = asset.get(f"indicator_{indicator_number}").get("std_rate") 
+
+    #         if self.hot_symbols[asset_id]:
+    #             symbols = [self.hot_symbols[asset_id]]
+
+    #         if not self.time_frame_seconds:
+    #             self.time_frame_seconds = self.interval_to_seconds("1m") 
+
+    #         fetch_klines_limit = fetch_limit if self.is_new_interval() else 1        
+    #         await self.fetch_klines_for_symbols(session, asset_id, symbols, time_frame, fetch_klines_limit, api_key)
+
+    #         for symbol in symbols:
+    #             tp_rate = self.cashe_data_book_dict[asset_id][symbol]["tp_rate"]
+    #             sl_rate = self.cashe_data_book_dict[asset_id][symbol]["sl_rate"]
+    #             df = self.klines_data_dict[asset_id][symbol]
+    #             signals_dict = await self.calculate_signals(df, indicator_number, fetch_limit, std_rate, sl_rate, tp_rate)
+    #             await self.strategy_executer(indicator_number, signals_dict, asset_id, symbol)
+
+    #         async with self.async_lock:
+    #             if not self.is_any_signal:
+    #                 continue
+
+    #             symb = self.hot_symbols[asset_id]
+    #             if not symb:
+    #                 continue
+
+    #             is_opening_long = self.cashe_data_book_dict[asset_id][symb]["LONG"]["is_opening"]
+    #             is_closing_long = self.cashe_data_book_dict[asset_id][symb]["LONG"]["is_closing"]
+    #             is_opening_short = self.cashe_data_book_dict[asset_id][symb]["SHORT"]["is_opening"]                    
+    #             is_closing_short = self.cashe_data_book_dict[asset_id][symb]["SHORT"]["is_closing"]
+
+    #             trade_item["asset_id"] = asset_id
+    #             trade_item["symbol"] = symb
+    #             trade_item["margin_type"] = asset.get("margin_type")
+    #             trade_item["leverage"] = asset.get("leverage")
+    #             trade_item["api_key"] = api_key
+    #             trade_item["api_secret"] = api_secret
+                
+    #             side = ""
+    #             pos_side = ""
+
+    #             if is_opening_long:
+    #                 side = "BUY"                        
+    #                 pos_side = "LONG"
+
+    #                 print(f"side: {side}")
+    #                 print(f"Pos side: {pos_side}")
+    #                 print("Opening")
+                
+
+    #             elif is_closing_long:
+    #                 side = "SELL"
+    #                 pos_side = "LONG"
+                
+    #                 print(f"side: {side}")
+    #                 print(f"Pos side: {pos_side}")
+    #                 print("Closing")
+                    
+
+    #             if is_opening_short:
+    #                 side = "SELL"
+    #                 pos_side = "SHORT"
+                    
+    #                 print(f"side: {side}")
+    #                 print(f"Pos side: {pos_side}")
+    #                 print("Opening")
+                
+
+    #             elif is_closing_short:
+    #                 side = "BUY"
+    #                 pos_side = "SHORT"
+                    
+    #                 print(f"side: {side}")
+    #                 print(f"Pos side: {pos_side}")
+    #                 print("Closing")
+                    
+    #             if side:
+    #                 trade_item["side"] = side
+    #                 trade_item["position_side"] = pos_side
+
+    #                 trade_item["qty"] = 0.0
+
+    #                 if is_opening_long or is_opening_short:
+    #                     if symb in self.busy_symbols_set:
+    #                         continue
+    #                     quantity_precision = self.cashe_data_book_dict[asset_id][symb]["qty_precision"]
+    #                     depo = asset.get("depo")
+    #                     cur_price = self.klines_data_dict[asset_id][symbol].get("Close").iloc[-1]
+    #                     trade_item["qty"] = self.usdt_to_qnt_converter(depo, cur_price, quantity_precision)
+
+    #                 else:
+    #                     trade_item["qty"] = self.cashe_data_book_dict[asset_id][symb][pos_side].get("comul_qty", 0.0)
+
+    #                 if trade_item["qty"]:
+    #                     trades.append(trade_item) # Добавляем сет в очередь для торговли
+    #                 else:
+    #                     self.log_error_loger(f"Ошибка при попытке расчитать объем позиции. Asset Id: {asset_id}. symbol: {symbol}")                
+
+    #         print(self.klines_data_dict[asset_id])
+
+    #     self.is_any_signal = False
+    #     return trades

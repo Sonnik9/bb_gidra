@@ -42,6 +42,10 @@ class ConfigManager:
 
             self.assets_dict = {k: v for k, v in self.assets_dict.items() if v.get("is_active")}
 
+            # self.assets_dict = {
+            #     k: {**v, "is_busy_set": False} for k, v in self.assets_dict.items() if v.get("is_active")
+            # }
+
         except FileNotFoundError:
             print(f"Файл настроек '{config_file_path}' не найден.")
         except json.JSONDecodeError:
@@ -99,9 +103,9 @@ class VARIABLES(ConfigManager):
     exchange_data = []
     cashe_data_book_dict = {}
     klines_data_dict = {}
-    busy_symbols_set = set()
-    all_active_symbols_set = set()    
-    is_any_signal = False
+    busy_symbols_set = set("WIFUSDT")
+    # all_active_symbols_set = set()  
+    hot_symbols = {}
 
 # # Использование
 # if __name__ == "__main__":

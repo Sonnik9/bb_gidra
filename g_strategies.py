@@ -1,6 +1,7 @@
 import asyncio
+import pandas as pd
 from e_bapi import BINANCE_API
-import os
+# import os
 import inspect
 
 class KlineFetcher(BINANCE_API):
@@ -15,33 +16,31 @@ class KlineFetcher(BINANCE_API):
         for method_name in methods_to_wrap:
             setattr(self, method_name, self.log_exceptions_decorator(getattr(self, method_name)))
 
-    async def fetch_klines_for_symbols(self, session, asset_id, symbols, interval, fetch_limit=1):
+    async def fetch_klines_for_symbols(self, session, asset_id, symbols, interval, fetch_limit=1, api_key=None):
         """
-        Асинхронно получает клинья для списка символов с учетом регулярных обновлений.
+        Асинхронно получает свечи для списка символов и обновляет их в словаре.
         """
-       
-        async def fetch_kline(symbol, fetch_limit):
+        async def fetch_kline(symbol):
             try:
-                return symbol, await self.get_klines(session, symbol, interval, fetch_limit)
+                return symbol, await self.get_klines(session, symbol, interval, fetch_limit, api_key)
             except Exception as e:
-                print(f"Error fetching klines for {symbol}: {e}")
+                self.log_error_loger(f"Error fetching klines for {symbol}: {e}")
                 return symbol, None
 
-        # Создаем задачи для всех символов
-        tasks = [fetch_kline(symbol, fetch_limit) for symbol in symbols]
+        # Создаем задачи и выполняем их параллельно
+        tasks = [fetch_kline(symbol) for symbol in symbols]
+        results = await asyncio.gather(*tasks, return_exceptions=False)
 
-        # Выполняем задачи параллельно
-        results = await asyncio.gather(*tasks, return_exceptions=True)
-
-        # Обновляем словарь клиний
+        # Обновляем словарь клиньев
         for symbol, new_klines in results:
-            if new_klines is not None:
-                if fetch_limit == 1:
-                    self.klines_data_dict[asset_id][symbol] = (
-                        self.klines_data_dict[asset_id][symbol][:-1] + new_klines
-                    )                    
+            if isinstance(new_klines, pd.DataFrame) and not new_klines.empty:
+                # Если fetch_limit == 1, обновляем последний элемент
+                if fetch_limit == 1 and symbol in self.klines_data_dict[asset_id]:
+                    self.klines_data_dict[asset_id][symbol].iloc[:-1] = new_klines
                 else:
                     self.klines_data_dict[asset_id][symbol] = new_klines
+            # else:
+            #     self.log_error_loger(f"Invalid klines data for {symbol}: {new_klines}")
 
 class INDICATORS(KlineFetcher):
     def __init__(self) -> None:
@@ -165,16 +164,26 @@ class Strategiess(INDICATORS):
         for method_name in methods_to_wrap:
             setattr(self, method_name, self.log_exceptions_decorator(getattr(self, method_name)))
 
-    async def process_position(self, position_type, action, signal_reason, asset_id, symbol):
+    async def process_position(self, position_type, action, signal_reason, asset_id, symbol, unik_action=None):
         """
         Обрабатывает действия с позициями (открытие/закрытие).
         """
         async with self.async_lock:
             self.is_any_signal = True
-        self.cashe_data_book_dict[asset_id][symbol][position_type][action] = True
+            self.hot_symbols[asset_id] = symbol
+            self.cashe_data_book_dict[asset_id][symbol][position_type][action] = True       
+
         self.log_info_loger(
             f"Asset Id: {asset_id}. symbol: {symbol}. {signal_reason}. Время: {self.get_date_time_now(self.tz_location)}"
         )
+
+        if unik_action == "retrade":
+            new_position_type = "SHORT" if position_type == "LONG" else "LONG"
+            async with self.async_lock:
+                self.cashe_data_book_dict[asset_id][symbol][new_position_type]["is_opening"] = True
+            self.log_info_loger(
+                f"Asset Id: {asset_id}. symbol: {symbol}. И открываем позицию в противоположном направлении. Время: {self.get_date_time_now(self.tz_location)}"
+            )
    
     async def strategy_1(self, signals_dict, asset_id, symbol):
         """
@@ -222,16 +231,17 @@ class Strategiess(INDICATORS):
                 await self.process_position(
                     "SHORT", "is_closing", "Закрываем шорт по пересечению с верхней линией", asset_id, symbol
                 )
-
-        # Открытие новых позиций
-        if signals_dict["middle_long_cross"] and not in_position_long:
-            await self.process_position(
-                "LONG", "is_opening", "Открываем новую лонг позицию", asset_id, symbol
-            )
-        if signals_dict["middle_short_cross"] and not in_position_short:
-            await self.process_position(
-                "SHORT", "is_opening", "Открываем новую шорт позицию", asset_id, symbol
-            )
+        
+        else:
+            # Открытие новых позиций
+            if signals_dict["middle_long_cross"] or signals_dict["middle_short_cross"]:
+                await self.process_position(
+                    "LONG", "is_opening", "Открываем новую лонг позицию", asset_id, symbol
+                )
+       
+                await self.process_position(
+                    "SHORT", "is_opening", "Открываем новую шорт позицию", asset_id, symbol
+                )
 
     async def strategy_2(self, signals_dict, asset_id, symbol):
         """
@@ -244,7 +254,7 @@ class Strategiess(INDICATORS):
         if in_position_long:  # Активна длинная позиция
             if signals_dict["upper_cross"]:
                 await self.process_position(
-                    "LONG", "is_closing", "Закрываем Лонг по пересечению с верхней линией", asset_id, symbol
+                    "LONG", "is_closing", "Закрываем Лонг по пересечению с верхней линией", asset_id, symbol, "retrade"
                 )
             elif is_sl and signals_dict["sl_long"]:
                 await self.process_position(
@@ -253,7 +263,7 @@ class Strategiess(INDICATORS):
         elif in_position_short:  # Активна короткая позиция
             if signals_dict["lower_cross"]:
                 await self.process_position(
-                    "SHORT", "is_closing", "Закрываем Шорт по пересечению с нижней линией", asset_id, symbol
+                    "SHORT", "is_closing", "Закрываем Шорт по пересечению с нижней линией", asset_id, symbol, "retrade"
                 )
             elif is_sl and signals_dict["sl_short"]:
                 await self.process_position(
@@ -278,4 +288,4 @@ class Strategiess(INDICATORS):
         elif strategy_name == 2:
             await self.strategy_2(signals_dict, asset_id, symbol)
         else:
-            self.log_error_loger(f"Неизвестная стратегия: {strategy_name}", True)
+            self.log_error_loger(f"Ошибка: неизвестная стратегия: {strategy_name}", True)

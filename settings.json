@@ -10,21 +10,25 @@
                 "JASMYUSDT", "APTUSDT", "TRXUSDT", "ATOMUSDT", "TAOUSDT", "AAVEUSDT", "PYTHUSDT", 
                 "SANDUSDT", "KASUSDT", "ALGOUSDT", "FLOWUSDT", "NEOUSDT", "VETUSDT", "XMRUSDT"
             ],
+            "symbol_black_list": ["MATICUSDT"],
             "depo": 10,
             "leverage": 2,
             "margin_type": "CROSSED",
             "indicator_number": 1,
             "indicator_1": {
                 "bb_period": 50,
-                "bb_time_frame": "15m",
+                "std_rate": 2,
+                "tfr_main": "15m",
                 "tp_rate": null,
                 "sl_rate": null
             },
             "indicator_2": {
                 "bb_period": 50,
-                "bb_time_frame_1": "15m",
-                "bb_time_frame_2": "1h",
-                "bb_time_frame_3": "4h",
+                "std_rate": 2,
+                "tfr_1": "15m",
+                "tfr_2": "1h",
+                "tfr_3": "4h",
+                "tfr_main": "4h",
                 "sl_rate": 1.2
             },                            
             
@@ -33,7 +37,7 @@
         }
     },
     "tz_location_str": "Europe/Kyiv",
-    "inspection_interval": 2,
+    "inspection_interval": 5,
     "MAX_LOG_LINES": 200,
     "is_bible_quotes_introdaction": true
 }
