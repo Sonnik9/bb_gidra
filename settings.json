@@ -1,7 +1,7 @@
 {
     "assets_dict": {
         "1": {
-            "my_name": "Денис",  
+            "my_name": "Николай",  
             "is_active": true,
             "symbols": [
                 "WIFUSDT", "XRPUSDT", "DOGEUSDT", "AVAXUSDT", "ARBUSDT", "BNBUSDT", "NOTUSDT", 
@@ -11,56 +11,28 @@
                 "SANDUSDT", "KASUSDT", "ALGOUSDT", "FLOWUSDT", "NEOUSDT", "VETUSDT", "XMRUSDT"
             ],
             "depo": 10,
-            "lev": 2,
+            "leverage": 2,
             "margin_type": "CROSSED",
             "indicator_number": 1,
             "indicator_1": {
                 "bb_period": 50,
-                "bb_time_frame": "15m"
-            },
-            "indicator_2": {
-                "bb_period": 50,
-                "bb_time_frame_1": "15m",
-                "bb_time_frame_2": "1h",
-                "bb_time_frame_3": "4h"
-            },
-            "tp_rate": 1,                
-            "sl_rate": 1,
-            "BINANCE_API_PUBLIC_KEY": "hYz5dH7ODI0kzOjaX8jv4f1UClgyammBhtsGW9eWyA8Et3UIfQYtgx0vsTZHWu87",
-            "BINANCE_API_PRIVATE_KEY": "0KwkzsIYg1GMWnoMrNsYNWQ8gLGxbjK6dySKfZjEjOpNugXdtiG3498hzTwdcSxp"
-        },
-        "2": {
-            "my_name": "Денис",            
-            "is_active": false,
-            "symbols": [
-                "WIFUSDT", "XRPUSDT", "DOGEUSDT", "AVAXUSDT", "ARBUSDT", "BNBUSDT", "NOTUSDT", 
-                "MATICUSDT", "TIAUSDT", "ADAUSDT", "OPUSDT", "FILUSDT", "DYDXUSDT", "DOTUSDT", 
-                "MKRUSDT", "FETUSDT", "FTMUSDT", "UNIUSDT", "SUIUSDT", "TONUSDT", "GALAUSDT", 
-                "JASMYUSDT", "APTUSDT", "TRXUSDT", "ATOMUSDT", "TAOUSDT", "AAVEUSDT", "PYTHUSDT", 
-                "SANDUSDT", "KASUSDT", "ALGOUSDT", "FLOWUSDT", "NEOUSDT", "VETUSDT", "XMRUSDT"
-            ],
-            "depo": 10,
-            "lev": 2,
-            "margin_type": "CROSSED",
-            "indicator_number": 1,
-            "indicator_1": {
-                "bb_period": 50,
-                "bb_main_time_frame": "1h"
+                "bb_time_frame": "15m",
+                "tp_rate": null,
+                "sl_rate": null
             },
             "indicator_2": {
                 "bb_period": 50,
                 "bb_time_frame_1": "15m",
                 "bb_time_frame_2": "1h",
                 "bb_time_frame_3": "4h",
-                "bb_main_time_frame": "1h"
-            },
-            "tp_rate": 1,                
-            "sl_rate": 1,                
+                "sl_rate": 1.2
+            },                            
+            
             "BINANCE_API_PUBLIC_KEY": "hYz5dH7ODI0kzOjaX8jv4f1UClgyammBhtsGW9eWyA8Et3UIfQYtgx0vsTZHWu87",
             "BINANCE_API_PRIVATE_KEY": "0KwkzsIYg1GMWnoMrNsYNWQ8gLGxbjK6dySKfZjEjOpNugXdtiG3498hzTwdcSxp"
-        } 
+        }
     },
-    "tz_location_str": "Europe/Berlin",
+    "tz_location_str": "Europe/Kyiv",
     "inspection_interval": 2,
     "MAX_LOG_LINES": 200,
     "is_bible_quotes_introdaction": true

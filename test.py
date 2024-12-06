@@ -309,3 +309,97 @@
                 #     self.cashe_data_book_dict[asset_id][symbol]["entry_point_long"] = 0.0
                 #     self.cashe_data_book_dict[asset_id][symbol]["comul_qty_short"] = 0.0
                 #     self.cashe_data_book_dict[asset_id][symbol]["entry_point_short"] = 0.0   
+
+
+  
+    # def time_signal_info(self, signal, symbol, cur_price):
+    #     ssignal_time = self.get_cur_process_time()
+    #     signal_mess = 'LONG' if signal == 1 else 'SHORT'
+    #     print(f"Сигнал: {signal_mess}. Монета: {symbol}. Время сигнала: {ssignal_time}. Текущая цена: {cur_price}")
+
+    # def time_calibrator(self, kline_time: int, time_frame: str):
+    #     current_time = time.time()
+        
+    #     # Преобразуем таймфрейм в секунды
+    #     time_in_seconds = {
+    #         'm': 60,
+    #         'h': 3600,
+    #         'd': 86400
+    #     }.get(time_frame, 0) * kline_time
+
+    #     if time_in_seconds == 0:
+    #         raise ValueError("Unsupported time frame. Use 'm', 'h', or 'd'.")
+        
+    #     # Рассчитываем интервал для ожидания до следующего значения
+    #     next_interval = math.ceil(current_time / time_in_seconds) * time_in_seconds
+    #     wait_time = next_interval - current_time
+
+    #     # Определяем специальные интервалы ожидания
+    #     special_intervals = {
+    #         ('m', 15): 300, # 5 min
+    #         ('m', 30): 300,
+    #         ('h', 1): 300,
+    #         ('h', 4): 900, # 15 min
+    #         ('h', 6): 900,
+    #         ('h', 12): 900,
+    #         ('d', kline_time): 900
+    #     }
+
+    #     # Рассчитываем второй интервал ожидания (wait_time_2) для специальных временных интервалов
+    #     special_seconds = special_intervals.get((time_frame, kline_time), 0)
+
+    #     if special_seconds:
+    #         next_interval_2 = math.ceil(current_time / special_seconds) * special_seconds
+    #         wait_time_2 = next_interval_2 - current_time
+    #     else:
+    #         wait_time_2 = wait_time
+        
+    #     return int(wait_time) + 1, int(wait_time_2) + 1
+
+
+    # def write_logs(self):
+    #     """Записывает логи в файлы и очищает соответствующие списки."""
+    #     logs = [
+    #         (self.general_error_logger_list, LOG_ERROR_FILE),
+    #         (self.log_info_list, LOG_INFO_FILE),
+    #         (self.log_error_order_list, LOG_ERROR_ORDERS_FILE),
+    #         (self.log_succ_order_list, LOG_SUCCESS_ORDERS_FILE),
+    #     ]
+        
+    #     for log_list, file_name in logs:
+    #         if log_list:
+    #             # Проверяем и подрезаем файл, если превышен лимит строк
+    #             if os.path.exists(file_name):
+    #                 with open(file_name, "r", encoding="utf-8") as f:
+    #                     lines = f.readlines()
+
+    #                 # Если количество строк в файле превышает лимит
+    #                 if len(lines) > self.MAX_LOG_LINES:
+    #                     # Обрезаем файл, удаляя старые записи
+    #                     with open(file_name, "w", encoding="utf-8") as f:
+    #                         # Оставляем только последние MAX_LOG_LINES строк
+    #                         f.writelines(lines[-self.MAX_LOG_LINES:])
+                
+    #             # Открываем файл и записываем новые данные
+    #             with open(file_name, "a", encoding="utf-8") as f:
+    #                 f.writelines(f"{log}\n" for log in log_list)
+
+    #             # Очищаем список после записи
+    #             log_list.clear()
+
+
+
+                # "tp_long": (last_close_price > df[f'bb_upper{tp_suffix}'].iloc[-1]),
+                # "tp_short": (last_close_price < df[f'bb_lower{tp_suffix}'].iloc[-1]),
+                # "sl_short": (last_close_price > df[f'bb_upper{sl_suffix}'].iloc[-1]),
+                # "sl_long": (last_close_price < df[f'bb_lower{sl_suffix}'].iloc[-1])
+
+
+            # tp_suffix = f'_tp_{tp_rate}'            
+            # df = self.calculate_bollinger_bands(df, bb_period, basik_std * tp_rate, suffix=tp_suffix)
+            # sl_suffix = f'_sl_{sl_rate}'
+            # df = self.calculate_bollinger_bands(df, bb_period, basik_std * sl_rate, suffix=sl_suffix)
+
+
+        # async with self.async_lock:
+        #     self.is_any_signal = any(signals_dict.values())

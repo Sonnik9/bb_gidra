@@ -1,3 +1,4 @@
+import asyncio
 import json
 import pytz
 
@@ -63,8 +64,9 @@ class ConfigManager:
             print(f"Активен: {'Да' if asset['is_active'] else 'Нет'}")
             print(f"Символы: {', '.join(asset['symbols'])}")
             print(f"Депозит: {asset['depo']} USDT")
-            print(f"Плечо: {asset['lev']}")
+            print(f"Плечо: {asset['leverage']}")
             print(f"Тип маржи: {asset['margin_type']}")
+            print(f"Номер стратегии: {asset['indicator_number']}")
             
             print("Индикатор 1:")
             for key, value in asset.get("indicator_1", {}).items():
@@ -74,13 +76,32 @@ class ConfigManager:
             for key, value in asset.get("indicator_2", {}).items():
                 print(f"  {key}: {value}")
 
-            print(f"Take Profit Rate: {asset.get('tp_rate', 0)}%")
-            print(f"Stop Loss Rate: {asset.get('sl_rate', 0)}%")
+            # print(f"Take Profit Rate: {asset.get('tp_rate', 0)}%")
+            # print(f"Stop Loss Rate: {asset.get('sl_rate', 0)}%")
             
             print("\n--- API-ключи ---")
             print(f"Публичный ключ: {asset['BINANCE_API_PUBLIC_KEY'][:10]}... (скрыто)")
             print(f"Приватный ключ: {asset['BINANCE_API_PRIVATE_KEY'][:10]}... (скрыто)")
             print("\n" + "-" * 30 + "\n")
+
+class VARIABLES(ConfigManager):
+    first_iter = True  
+    stop_bot = False 
+    general_error_logger_list = []
+    log_info_list = []
+    log_response_list = []
+    log_succ_order_list = []
+    log_error_order_list = []     
+    async_lock = asyncio.Lock()
+    # ////
+    interval_seconds = None
+    last_fetch_timestamp = None
+    exchange_data = []
+    cashe_data_book_dict = {}
+    klines_data_dict = {}
+    busy_symbols_set = set()
+    all_active_symbols_set = set()    
+    is_any_signal = False
 
 # # Использование
 # if __name__ == "__main__":

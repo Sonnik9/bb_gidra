@@ -1,11 +1,9 @@
-import time
-from datetime import datetime as dttm
-import math
+from datetime import datetime, timezone
+# import math
+import pytz
 from c_log import Requests_Logger
 import os
 import inspect
-
-current_file = os.path.basename(__file__)
 
 class UTILS(Requests_Logger):
     def __init__(self):  
@@ -18,58 +16,53 @@ class UTILS(Requests_Logger):
         for method_name in methods_to_wrap:
             setattr(self, method_name, self.log_exceptions_decorator(getattr(self, method_name)))
                         
-    def milliseconds_to_datetime(self, milliseconds):
-        seconds, milliseconds = divmod(milliseconds, 1000)
-        time = dttm.utcfromtimestamp(seconds)
-        return time.strftime('%Y-%m-%d %H:%M:%S')
+    # def get_current_ms_utc_time(self):
+    #     return int(datetime.now(tz=timezone.utc).timestamp() * 1000)
     
-    def get_cur_process_time(self, local_tz) -> str:
-        now_time = dttm.now(local_tz)
-        return now_time.strftime('%Y-%m-%d %H:%M:%S')    
-  
-    def time_signal_info(self, signal, symbol, cur_price):
-        ssignal_time = self.get_cur_process_time()
-        signal_mess = 'LONG' if signal == 1 else 'SHORT'
-        print(f"Сигнал: {signal_mess}. Монета: {symbol}. Время сигнала: {ssignal_time}. Текущая цена: {cur_price}")
+    def get_date_time_now(self, tz_location):
+        now = datetime.now(tz_location)
+        return now.strftime("%Y-%m-%d %H:%M:%S")
 
-    def time_calibrator(self, kline_time: int, time_frame: str):
-        current_time = time.time()
-        
-        # Преобразуем таймфрейм в секунды
-        time_in_seconds = {
-            'm': 60,
-            'h': 3600,
-            'd': 86400
-        }.get(time_frame, 0) * kline_time
+    def milliseconds_to_datetime(self, milliseconds, tz_location):
+        seconds = milliseconds / 1000
+        dt = datetime.fromtimestamp(seconds, pytz.utc).astimezone(tz_location)
+        return dt.strftime("%Y-%m-%d %H:%M:%S") + f".{int(milliseconds % 1000):03d}"
 
-        if time_in_seconds == 0:
-            raise ValueError("Unsupported time frame. Use 'm', 'h', or 'd'.")
-        
-        # Рассчитываем интервал для ожидания до следующего значения
-        next_interval = math.ceil(current_time / time_in_seconds) * time_in_seconds
-        wait_time = next_interval - current_time
-
-        # Определяем специальные интервалы ожидания
-        special_intervals = {
-            ('m', 15): 300, # 5 min
-            ('m', 30): 300,
-            ('h', 1): 300,
-            ('h', 4): 900, # 15 min
-            ('h', 6): 900,
-            ('h', 12): 900,
-            ('d', kline_time): 900
+    def interval_to_seconds(self, interval):
+        """
+        Преобразует строковый интервал Binance в количество секунд.
+        """
+        mapping = {
+            "1m": 60,
+            "3m": 180,
+            "5m": 300,
+            "15m": 900,
+            "30m": 1800,
+            "1h": 3600,
+            "2h": 7200,
+            "4h": 14400,
+            "1d": 86400,
         }
+        return mapping.get(interval, 60)  # По умолчанию "1m"
 
-        # Рассчитываем второй интервал ожидания (wait_time_2) для специальных временных интервалов
-        special_seconds = special_intervals.get((time_frame, kline_time), 0)
-
-        if special_seconds:
-            next_interval_2 = math.ceil(current_time / special_seconds) * special_seconds
-            wait_time_2 = next_interval_2 - current_time
-        else:
-            wait_time_2 = wait_time
+    def is_new_interval(self):
+        """
+        Проверяет, появилась ли новая метка времени кратная интервалу.
+        """
+        if not self.interval_seconds:
+            return False
         
-        return int(wait_time) + 1, int(wait_time_2) + 1
+        now = datetime.now(timezone.utc)  # Используем объект времени с временной зоной UTC
+        current_timestamp = int(now.timestamp())
+
+        # Рассчитываем ближайшую кратную метку времени
+        nearest_timestamp = (current_timestamp // self.interval_seconds) * self.interval_seconds
+
+        if self.last_fetch_timestamp is None or nearest_timestamp > self.last_fetch_timestamp:
+            self.last_fetch_timestamp = nearest_timestamp
+            return True
+
+        return False
     
     def get_qty_precisions(self, symbol_info, symbol):
         
@@ -78,9 +71,9 @@ class UTILS(Requests_Logger):
             return
 
         quantity_precision = int(float(symbol_data['quantityPrecision']))
-        price_precision_market = int(float(symbol_data['pricePrecision']))
+        # price_precision_market = int(float(symbol_data['pricePrecision']))
 
-        return quantity_precision, price_precision_market
+        return quantity_precision
         
     def usdt_to_qnt_converter(self, depo, cur_price, quantity_precision):
         return round(depo / cur_price, quantity_precision)

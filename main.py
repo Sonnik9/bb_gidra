@@ -8,12 +8,6 @@ from i_templates import TEMP
 import os
 import inspect
 
-# Файлы логов
-LOG_ERROR_FILE = "log_error.txt"
-LOG_INFO_FILE = "log_info.txt"
-LOG_ERROR_ORDERS_FILE = "log_error_orders.txt"
-LOG_SUCCESS_ORDERS_FILE = "log_succ_orders.txt"
-
 def generate_bible_quote():
     random_bible_list = [
         "<<Благодать Господа нашего Иисуса Христа, и любовь Бога Отца, и общение Святаго Духа со всеми вами. Аминь.>>\n___(2-е Коринфянам 13:13)___",
@@ -89,64 +83,46 @@ class MainLogic(TEMP):
             original_method = getattr(self, method_name)
             setattr(self, method_name, self.log_exceptions_decorator(original_method))
 
-    def write_logs(self):
-        """Записывает логи в файлы и очищает соответствующие списки."""
-        logs = [
-            (self.general_error_logger_list, LOG_ERROR_FILE),
-            (self.log_info_list, LOG_INFO_FILE),
-            (self.log_error_order_list, LOG_ERROR_ORDERS_FILE),
-            (self.log_succ_order_list, LOG_SUCCESS_ORDERS_FILE),
-        ]
-        
-        for log_list, file_name in logs:
-            if log_list:
-                # Проверяем и подрезаем файл, если превышен лимит строк
-                if os.path.exists(file_name):
-                    with open(file_name, "r", encoding="utf-8") as f:
-                        lines = f.readlines()
-
-                    # Если количество строк в файле превышает лимит
-                    if len(lines) > self.MAX_LOG_LINES:
-                        # Обрезаем файл, удаляя старые записи
-                        with open(file_name, "w", encoding="utf-8") as f:
-                            # Оставляем только последние MAX_LOG_LINES строк
-                            f.writelines(lines[-self.MAX_LOG_LINES:])
-                
-                # Открываем файл и записываем новые данные
-                with open(file_name, "a", encoding="utf-8") as f:
-                    f.writelines(f"{log}\n" for log in log_list)
-
-                # Очищаем список после записи
-                log_list.clear()
-
     def process_signals(self):
         """Ищем торговые сигналы и интегрируем их в структуру данных."""
+        # symbols = self.cashe_data_book_dict[asset_id].get("symbols")
+        # indicator_number = self.cashe_data_book_dict[asset_id].get("indicator_number", 1)
+        # limit = self.cashe_data_book_dict[asset_id][f"indicator_{indicator_number}"].get("bb_period", 50)
+        # if interval is None:
+        #     interval = self.cashe_data_book_dict[asset_id][f"indicator_{indicator_number}"].get("bb_main_time_frame", None)
+    
+        # self.interval_seconds = self.interval_to_seconds(interval)
+        # # Определяем лимит для загрузки
+        # fetch_limit = limit if (self.first_iter or self.is_new_interval()) else 1
 
-        return
+        # asset_id, symbol, margin_type, leverage, qty, side, position_side, api_key, api_secret = trade.get("asset_id"), trade.get("symbol"), trade.get("margin_type"), trade.get("leverage"), trade.get("qty"), trade.get("side"), trade.get("position_side"), trade.get("api_key"), trade.get("api_secret")
+
+        return []
 
     async def _run(self):
         """Основной цикл выполнения."""
         if self.is_bible_quotes_introduction:
             print(f"\n{generate_bible_quote()}")
-        session = None
 
-        while True:
+        session = None              
+
+        while not self.stop_bot:
             try:
                 session = await open_session(session)
                 # print(session)
                 if self.first_iter:
                     print("Проверка новых сообщений...")
-                    await self.cache_trade_data(session)                
+                    await self.cache_trade_data(session)
+                    await self.hedg_temp(session)  
+
                 trades = await self.process_signals() or []
                 # print(messages)
                 if trades:                    
                     results_order = await self.place_orders_gather(session, trades)
                     if results_order:
                         for item_response in results_order:
-                            if not item_response:
-                                continue
-                            order_resp, asset_id = item_response
-                            await self.process_order(order_resp, asset_id)
+                            order_resp, asset_id, symbol = item_response
+                            await self.process_order_temp(order_resp, asset_id, symbol)
                     # print(f"Результаты ордеров: {results_order}")
 
                 self.first_iter = False
