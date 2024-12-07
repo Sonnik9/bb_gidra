@@ -65,32 +65,37 @@ class BINANCE_API(UTILS):
     async def get_klines(self, session, symbol, interval, limit, api_key=None):
         """
         Загружает данные свечей (klines) для заданного символа.
-        Возвращает DataFrame или None.
         """
-        params = {"symbol": symbol, "interval": interval, "limit": limit}
-        headers = {"X-MBX-APIKEY": api_key} if api_key else {}
+        params = {
+            "symbol": symbol,
+            "interval": interval,
+            "limit": limit
+        }
+        
+        headers = {}
+        if api_key:
+            headers["X-MBX-APIKEY"] = api_key  # Добавляем ключ в заголовки
 
         try:
             async with session.get(self.klines_url, params=params, headers=headers) as response:
                 if response.status != 200:
-                    self.log_error_loger(f"Error fetching klines for {symbol}: {response.status}")
-                    return None
-                
+                    self.log_error_loger(f"Failed to fetch klines: {response.status}, symbol: {symbol}")
+                    return pd.DataFrame(columns=['Time', 'Open', 'High', 'Low', 'Close', 'Volume'])
+
                 klines = await response.json()
                 if not klines:
-                    return None
+                    return pd.DataFrame(columns=['Time', 'Open', 'High', 'Low', 'Close', 'Volume'])
 
-            # Формируем DataFrame из первых шести столбцов
-            return (
-                pd.DataFrame(klines, columns=['Time', 'Open', 'High', 'Low', 'Close', 'Volume'])
-                .assign(Time=lambda df: pd.to_datetime(df['Time'], unit='ms'))
-                .set_index('Time')
-                .astype(float)
-            )
+            # Преобразование данных в DataFrame
+            data = pd.DataFrame(klines).iloc[:, :6]
+            data.columns = ['Time', 'Open', 'High', 'Low', 'Close', 'Volume']
+            data['Time'] = pd.to_datetime(data['Time'], unit='ms')  # Преобразуем метки времени
+            data.set_index('Time', inplace=True)
+            return data.astype(float)
 
         except Exception as ex:
             self.log_error_loger(f"{ex} in {inspect.currentframe().f_code.co_name}")
-            return None
+        return pd.DataFrame(columns=['Time', 'Open', 'High', 'Low', 'Close', 'Volume'])
 
     # private methods:        
     async def fetch_positions(self, session, api_key, api_secret):
@@ -161,8 +166,8 @@ class BINANCE_API(UTILS):
         return {}    
 
     async def make_order(self, session, asset_id, api_key, api_secret, symbol, qty, side, position_side, market_type="MARKET"):
-        print("Параметры запроса:...")
-        print(asset_id, api_key, api_secret, symbol, qty, side, position_side)
+        # print("Параметры запроса:...")
+        # print(asset_id, api_key, api_secret, symbol, qty, side, position_side)
         try:
             params = {
                 "symbol": symbol,
@@ -179,9 +184,9 @@ class BINANCE_API(UTILS):
 
             params = self.get_signature(params, api_secret)
             async with session.post(self.create_order_url, headers=headers, params=params) as response:
-                return await self.requests_logger(response, asset_id, "place_order", symbol, side)
+                return await self.requests_logger(response, asset_id, "place_order", symbol, position_side)
              
         except Exception as ex:
             self.log_error_loger(f"{ex} in {inspect.currentframe().f_code.co_name} at line {inspect.currentframe().f_lineno}")
 
-        return {}, asset_id, symbol, side
+        return {}, asset_id, symbol, position_side

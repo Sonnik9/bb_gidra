@@ -95,7 +95,7 @@ class Requests_Logger(Total_Logger):
             async with self.async_lock:
                 self.log_response_list.append(log_entry)
 
-    async def requests_logger(self, resp, asset_id, target, symbol=None, side=None):
+    async def requests_logger(self, resp, asset_id, target, symbol=None, pos_side=None):
         """Обработка и логирование данных запроса."""
         if resp is None:
             # Логируем ошибку, если resp равен None
@@ -117,4 +117,4 @@ class Requests_Logger(Total_Logger):
             symbol
         )
 
-        return resp_j, asset_id, symbol, side
+        return resp_j, asset_id, symbol, pos_side

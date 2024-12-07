@@ -6,6 +6,7 @@ config_file_path = "settings.json"
 
 class ConfigManager:
     def __init__(self):
+        self.symbols_filter = {}
         self.assets_dict = {}
         self.tz_location_str = "UTC"
         self.inspection_interval = None
@@ -22,7 +23,7 @@ class ConfigManager:
 
             # Проверка обязательных ключей
             required_keys = [
-                'assets_dict', 'tz_location_str', 'inspection_interval', 
+                'symbols_filter', 'assets_dict', 'tz_location_str', 'inspection_interval', 
                 'is_bible_quotes_introdaction', 'MAX_LOG_LINES'
             ]
 
@@ -31,6 +32,11 @@ class ConfigManager:
                 raise ValueError(f"Отсутствуют ключи в настройках: {', '.join(missing_keys)}")
 
             # Основные настройки
+            self.symbols_filter = config.get("symbols_filter", {})
+            self.MIN_VOLUM_USDT = self.symbols_filter.get("MIN_VOLUM_USDT", 1000000)
+            self.coinMarketCup_cup_slice = self.symbols_filter.get("coinMarketCup_cup_slice", 100)
+            self.is_coinMarketCup = self.symbols_filter.get("is_coinMarketCup", False)
+            self.CoinMarketCup_Api_Token = self.symbols_filter.get("CoinMarketCup_Api_Token", None)
             self.assets_dict = config.get("assets_dict", {})
             self.tz_location_str = config.get("tz_location_str", "UTC")
             self.inspection_interval = config.get("inspection_interval", 10)
@@ -103,7 +109,7 @@ class VARIABLES(ConfigManager):
     exchange_data = []
     cashe_data_book_dict = {}
     klines_data_dict = {}
-    busy_symbols_set = set("WIFUSDT")
+    busy_symbols_set = set()
     # all_active_symbols_set = set()  
     hot_symbols = {}
     is_any_signal = False

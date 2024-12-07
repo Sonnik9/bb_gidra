@@ -117,6 +117,8 @@ class DataController(Strategiess):
     async def process_positions(self, positions, asset_id):
         """Обрабатывает позиции, создавая структуру initial_restored_data для каждой позиции"""
         # Инициализация данных
+        
+        ckeck_positions_counter = 0
         for position in positions:
             symbol = position['symbol'].upper()
             position_side = position['positionSide'].upper()
@@ -125,18 +127,26 @@ class DataController(Strategiess):
             
             if symbol == self.hot_symbols[asset_id]:
                 async with self.async_lock:
+                    # print("process_positions")
                     self.cashe_data_book_dict[asset_id][symbol][position_side].update({
                         "in_position": position_amt != 0,
+                        "entry_point": entry_price if position_amt != 0 else 0.0,
                         "comul_qty": position_amt,
-                        "entry_point": entry_price if position_amt != 0 else 0.0
+                        "is_opening": False,          
+                        "is_closing": False                        
                     })
+                ckeck_positions_counter += 1
+            if ckeck_positions_counter == 2:
+                break
 
     async def check_position_data(self, session):
         """Проверка данных о позициях и их обработка"""
         try:
-            for asset_id, asset in self.assets_dict.items():  
+            for asset_id, asset in self.assets_dict.items(): 
+                if not self.hot_symbols[asset_id]:
+                    continue 
                 api_key = asset.get("BINANCE_API_PUBLIC_KEY")
-                api_secret = asset.get("BINANCE_API_PRIVATE_KEY")              
+                api_secret = asset.get("BINANCE_API_PRIVATE_KEY")           
                 account_info = await self.fetch_positions(session, api_key, api_secret)
                 positions = account_info.get("positions", [])       
                 await self.process_positions(positions, asset_id)
@@ -148,7 +158,7 @@ class DataController(Strategiess):
         """Инициализирует структуру cashe_data_book_dict для assets_dict."""
         for asset_id, asset in self.assets_dict.items():
             self.cashe_data_book_dict[asset_id] = {}
-            self.klines_data_dict[asset_id] = {}
+            # self.klines_data_dict[asset_id] = {}
             symbol_black_list = asset.get("symbol_black_list")
             
             for symbol in asset.get('symbols', []):
@@ -166,21 +176,25 @@ class DataController(Strategiess):
 
     async def cache_trade_data(self, session):
 
-        if self.cashe_data_book_dict:            
-            await self.check_position_data(session)
-            if self.busy_symbols_set:
-                async with self.async_lock:
-                    self.cashe_data_book_dict = {ass_id: symb for ass_id, symb in self.cashe_data_book_dict.items() if symb in self.busy_symbols_set}
-                await self.cache_data_to_file(self.cashe_data_book_dict)
+        async def busy_symbol_refact():
+            async with self.async_lock:
+                for asset_id, symbols in self.cashe_data_book_dict.items():
+                    for symbol_name, val in symbols.items():
+                        if val.get("LONG").get("comul_qty") or val.get("SHORT").get("comul_qty"):
+                            self.hot_symbols[asset_id] = symbol_name
+                            self.busy_symbols_set.add(symbol_name)
+
+        if self.cashe_data_book_dict:              
+            await self.check_position_data(session)  
+            await busy_symbol_refact()
+            # if self.first_iter or self.is_any_signal:
+            await self.cache_data_to_file(self.cashe_data_book_dict)            
             return
 
         if not self.file_exists():
             self.exchange_data = await self.get_exchange_info(session)                  
-            await self.initialize_asset_data()
-            await self.check_position_data(session)
-        else:
+            await self.initialize_asset_data()  
+
+        else:     
             self.cashe_data_book_dict = await self.load_data_from_file()
-            async with self.async_lock:
-                for asset_id, symbol in self.cashe_data_book_dict.items():
-                    self.hot_symbols[asset_id] = symbol
-                    self.busy_symbols_set.add(symbol)
+            await busy_symbol_refact()

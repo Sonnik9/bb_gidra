@@ -593,3 +593,58 @@
 #         finally:
 #             session = None
 #     return None
+
+
+
+
+    # async def go_filter(self, all_binance_tickers, coinsMarket_tickers):
+    #     """Фильтрация тикеров, соответствующих условиям по объёму в USDT."""
+    #     exclusion_contains_list = ['UP', 'DOWN', 'RUB', 'EUR']
+
+    #     # Фильтрация тикеров
+    #     def is_valid_ticker(ticker) -> bool:
+    #         symbol = ticker['symbol'].upper()
+
+    #         # Условия для отбора
+    #         is_usdt_pair = symbol.endswith('USDT')
+    #         no_exclusions = all(exclusion not in symbol for exclusion in exclusion_contains_list)
+
+    #         # Проверяем объём в USDT
+    #         try:
+    #             quote_volume = float(ticker.get('quoteVolume', 0))
+    #         except ValueError:
+    #             return False
+
+    #         sufficient_volume = quote_volume >= self.MIN_VOLUM_USDT
+
+    #         # Учет CoinMarketCap
+    #         if self.is_coinMarketCup:
+    #             return is_usdt_pair and no_exclusions and sufficient_volume and symbol in coinsMarket_tickers
+    #         return is_usdt_pair and no_exclusions and sufficient_volume
+
+    #     # Применяем фильтр
+    #     filtered_tickers = [ticker['symbol'] for ticker in all_binance_tickers if is_valid_ticker(ticker)]
+
+    #     return filtered_tickers
+
+
+                            # signals_counter += 1
+                            # if indicator_number == 1:
+                            #     if signals_counter == 2:
+                            #         break
+                            # elif indicator_number == 2:
+                            #     if signals_counter == 1:
+
+
+            # if self.busy_symbols_set:
+            # async with self.async_lock:
+            #     print("here cache_trade_data")
+                                    
+            #     for ass_id, symbols_dict in self.cashe_data_book_dict.items():
+            #         # Фильтруем словарь, оставляя только символы, которые присутствуют в busy_symbols_set
+            #         self.cashe_data_book_dict[ass_id] = {
+            #             symbol: val for symbol, val in symbols_dict.items() if symbol in self.busy_symbols_set
+            #         }
+            #     print(f"self.cashe_data_book_dict: {self.cashe_data_book_dict}")
+
+            # await self.cache_data_to_file(self.cashe_data_book_dict)

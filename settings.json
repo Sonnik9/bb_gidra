@@ -1,35 +1,30 @@
 {
     "symbols_filter": {
-        "MIN_VOLUM_USDT": 500000000,
-        "coinMarketCup_cup_slice":200,
-        "is_coinMarketCup": true        
+        "MIN_VOLUM_USDT": 50000000,
+        "coinMarketCup_cup_slice": 250,
+        "is_coinMarketCup": true,
+        "CoinMarketCup_Api_Token": "15dc358f-b26f-4200-8ee9-7f60b143480a"    
     },
     "assets_dict": {
         "1": {
             "my_name": "Николай",  
             "is_active": true,
             "is_symbols_filter_true": true,
-            "symbols": [
-                "WIFUSDT", "XRPUSDT", "DOGEUSDT", "AVAXUSDT", "ARBUSDT", "BNBUSDT", "NOTUSDT", 
-                "TIAUSDT", "ADAUSDT", "OPUSDT", "FILUSDT", "DYDXUSDT", "DOTUSDT", 
-                "MKRUSDT", "FETUSDT", "FTMUSDT", "UNIUSDT", "SUIUSDT", "TONUSDT", "GALAUSDT", 
-                "JASMYUSDT", "APTUSDT", "TRXUSDT", "ATOMUSDT", "TAOUSDT", "AAVEUSDT", "PYTHUSDT", 
-                "SANDUSDT", "KASUSDT", "ALGOUSDT", "FLOWUSDT", "NEOUSDT", "VETUSDT", "XMRUSDT"
-            ],
-            "symbol_black_list": [],
-            "depo": 10,
-            "leverage": 2,
+            "symbols": ["BTCUSDT", "ETHUSDT"],
+            "symbol_black_list": ["BCHUSDT"],
+            "depo": 21,
+            "leverage": 1,
             "margin_type": "CROSSED",
             "indicator_number": 1,
             "indicator_1": {
-                "bb_period": 50,
+                "bb_period": 55,
                 "std_rate": 2,
                 "tfr_main": "15m",
                 "tp_rate": null,
                 "sl_rate": null
             },
             "indicator_2": {
-                "bb_period": 50,
+                "bb_period": 60,
                 "std_rate": 2,
                 "tfr_1": "15m",
                 "tfr_2": "1h",
@@ -45,6 +40,5 @@
     "tz_location_str": "Europe/Kyiv",
     "inspection_interval": 5,
     "MAX_LOG_LINES": 200,
-    "is_bible_quotes_introdaction": true,
-    "CoinMarketCup_Api_Token": "15dc358f-b26f-4200-8ee9-7f60b143480a"
+    "is_bible_quotes_introdaction": true    
 }

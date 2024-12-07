@@ -1,0 +1,2018 @@
+{
+    "1": {
+        "BTCUSDT": {
+            "qty_precision": 3,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "ETHUSDT": {
+            "qty_precision": 3,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "XRPUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "SOLUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "BNBUSDT": {
+            "qty_precision": 2,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "DOGEUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "ADAUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "TRXUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "AVAXUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "TONUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "DOTUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "LINKUSDT": {
+            "qty_precision": 2,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "XLMUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "HBARUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "SUIUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "UNIUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "LTCUSDT": {
+            "qty_precision": 3,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "NEARUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "APTUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "ICPUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "POLUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "ETCUSDT": {
+            "qty_precision": 2,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "VETUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "RENDERUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "TAOUSDT": {
+            "qty_precision": 3,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "FETUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "ARBUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "FILUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "KASUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "AAVEUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "ALGOUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "STXUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "ATOMUSDT": {
+            "qty_precision": 2,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "WIFUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "TIAUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "FTMUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "OPUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "INJUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "ENAUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "THETAUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "WLDUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "SEIUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "RUNEUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "JASMYUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "ONDOUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "GALAUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "SANDUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "BRETTUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "EOSUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "QNTUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "LDOUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "PYTHUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "XTZUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "FLOWUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "ARUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "STRKUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "IOTAUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "AEROUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "DYDXUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "POPCATUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "NEOUSDT": {
+            "qty_precision": 2,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "PNUTUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "CRVUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "MANAUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "AXSUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "APEUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "ENSUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "CAKEUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "CFXUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "CHZUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "PENDLEUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "COMPUSDT": {
+            "qty_precision": 3,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "NOTUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "ORDIUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "ZKUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "EIGENUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "RSRUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "MEWUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "NEIROUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "GOATUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "LPTUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "BOMEUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "1INCHUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "ZROUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "TURBOUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "ZILUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "ZRXUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "ONEUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "ETHFIUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "MEMEUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "ACTUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "AEVOUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "KDAUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "ARKMUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "JTOUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "MOODENGUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "SUSHIUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "YFIUSDT": {
+            "qty_precision": 3,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "IOUSDT": {
+            "qty_precision": 1,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "ALTUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "DOGSUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "CHILLGUYUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "MASKUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "DRIFTUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "TUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        },
+        "PEOPLEUSDT": {
+            "qty_precision": 0,
+            "LONG": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "SHORT": {
+                "in_position": false,
+                "entry_point": 0.0,
+                "comul_qty": 0.0,
+                "is_opening": false,
+                "is_closing": false
+            },
+            "tp_rate": null,
+            "sl_rate": null
+        }
+    }
+}
