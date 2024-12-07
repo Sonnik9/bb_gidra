@@ -106,6 +106,7 @@ class VARIABLES(ConfigManager):
     busy_symbols_set = set("WIFUSDT")
     # all_active_symbols_set = set()  
     hot_symbols = {}
+    is_any_signal = False
 
 # # Использование
 # if __name__ == "__main__":

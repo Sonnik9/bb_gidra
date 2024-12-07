@@ -1,9 +1,8 @@
 import asyncio
 import aiohttp
 from datetime import datetime
-# from statistics import mean
 import aiohttp
-# from functools import wraps
+# import math
 from i_templates import TEMP
 import os
 import inspect
@@ -22,51 +21,91 @@ def generate_bible_quote():
         return random_bible_list[1]
     return random_bible_list[2]
 
+class COInN_FILTER(TEMP):
+    def __init__(self):
+        super().__init__()
+        self._decorate_methods_with_logging()
 
-# def aiohttp_connector(func):
-#     @wraps(func)
-#     async def wrapper(self, *args, **kwargs):
-#         async with aiohttp.ClientSession() as session:
-#             try:
-#                 return await func(self, session, *args, **kwargs)
-#             except Exception as ex:
-#                 print(f"{ex} in {inspect.currentframe().f_code.co_name} at line {inspect.currentframe().f_lineno}")
-#     return wrapper
+    def _decorate_methods_with_logging(self):
+        """Оборачивает методы в декоратор логирования исключений."""
+        methods = [
+            name for name, _ in inspect.getmembers(self, predicate=inspect.ismethod)
+            if not name.startswith("__")
+        ]
+        for method_name in methods:
+            original_method = getattr(self, method_name)
+            setattr(self, method_name, self.log_exceptions_decorator(original_method))
 
-async def open_session(session=None, timeout=10):
-    """
-    Открытие aiohttp сессии с таймаутом.
+    async def top_coins_request(self, session, limit):
+        url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
+        headers = {
+            'Accepts': 'application/json',
+            'X-CMC_PRO_API_KEY': self.CoinMarketCup_Api_Token,
+        }
+        params = {
+            'start': '1',
+            'limit': limit,
+            'convert': 'USD',
+        }
+
+        async with session.get(url, headers=headers, params=params) as response:
+            if response.status == 200:
+                data = await response.json()
+                return data.get('data', [])
+            return []
+
+    async def coin_market_cup_top(self, session, limit):
+        top_coins_total_list = []
+        top_coins = await self.top_coins_request(session, limit)
+        
+        if top_coins:
+            for coin in top_coins:
+                symbol = coin.get('symbol', '')
+                if symbol:
+                    top_coins_total_list.append(f"{symbol}USDT")
+            return top_coins_total_list
+        return []
+
+    async def go_filter(self, all_binance_tickers, coinsMarket_tickers, is_coinMarketCup):
+        """Фильтрация тикеров, соответствующих условиям по объёму в USDT."""
+        exclusion_contains_list = ['UP', 'DOWN', 'RUB', 'EUR']
+
+        # Фильтрация тикеров
+        def is_valid_ticker(ticker) -> bool:
+            symbol = ticker['symbol'].upper()
+
+            # Условия для отбора
+            is_usdt_pair = symbol.endswith('USDT')
+            no_exclusions = all(exclusion not in symbol for exclusion in exclusion_contains_list)
+
+            # Проверяем объём в USDT
+            try:
+                quote_volume = float(ticker.get('quoteVolume', 0))
+            except ValueError:
+                return False
+
+            sufficient_volume = quote_volume >= self.MIN_VOLUM_USDT
+
+            # Учет CoinMarketCap
+            if is_coinMarketCup:
+                return is_usdt_pair and no_exclusions and sufficient_volume and symbol in coinsMarket_tickers
+            return is_usdt_pair and no_exclusions and sufficient_volume
+
+        # Применяем фильтр
+        filtered_tickers = [ticker['symbol'] for ticker in all_binance_tickers if is_valid_ticker(ticker)]
+
+        return filtered_tickers
     
-    :param session: Существующая сессия или None.
-    :param timeout: Время в секундах до таймаута для открытия сессии (по умолчанию 10 секунд).
-    """
-    if not session:
-        try:
-            timeout_obj = aiohttp.ClientTimeout(total=timeout)
-            session = aiohttp.ClientSession(timeout=timeout_obj)
-        except asyncio.TimeoutError:
-            print(f"Ошибка: Таймаут при открытии сессии. Таймаут: {timeout} секунд.")
-            raise
-    return session
+    async def get_top_coins_template(self, session, coinMarketCup_cup_slice=200, is_coinMarketCup=True):
+        all_binance_tickers = await self.get_all_tickers(session) 
+        coinsMarket_tickers = await self.coin_market_cup_top(session, coinMarketCup_cup_slice) if is_coinMarketCup else []
 
-async def close_session(session=None, timeout=5):
-    """
-    Закрытие aiohttp сессии с таймаутом.
-    
-    :param session: Сессия для закрытия.
-    :param timeout: Время в секундах до таймаута для закрытия сессии (по умолчанию 5 секунд).
-    """
-    if session:
-        try:
-            await asyncio.wait_for(session.close(), timeout=timeout)
-        except asyncio.TimeoutError:
-            print(f"Ошибка: Таймаут при закрытии сессии. Таймаут: {timeout} секунд.")
-            # Здесь можно выполнить дополнительные действия, например, принудительно закрыть сессию.
-        finally:
-            session = None
-    return None
+        # Фильтрация тикеров
+        total_coin_list = await self.go_filter(all_binance_tickers, coinsMarket_tickers, is_coinMarketCup)
 
-class MainLogic(TEMP):
+        return total_coin_list
+
+class MainLogic(COInN_FILTER):
     """Главный класс логики."""
 
     def __init__(self):
@@ -168,7 +207,6 @@ class MainLogic(TEMP):
         self.is_any_signal = False
         return trades
 
-
     async def _run(self):
         """Основной цикл выполнения."""
         if self.is_bible_quotes_introduction:
@@ -177,6 +215,8 @@ class MainLogic(TEMP):
         tik_counter = 0           
 
         async with aiohttp.ClientSession() as session:
+            # print(await self.get_top_coins_template(session))
+            # return
             while not self.stop_bot:
                 try:
                     print("tik")
@@ -216,70 +256,18 @@ class MainLogic(TEMP):
                 await asyncio.sleep(self.inspection_interval)
             self.log_info_loger("Бот завершил работу.", True)
 
-
-    # async def _run(self):
-    #     """Основной цикл выполнения."""
-    #     if self.is_bible_quotes_introduction:
-    #         print(f"\n{generate_bible_quote()}")
-
-    #     session = None
-    #     tik_counter = 0           
-
-    #     while not self.stop_bot:
-    #         try:
-    #             print("tik")
-    #             tik_counter += 1
-    #             if tik_counter == 10 or self.first_iter:
-    #                 session = await open_session(session)
-    #                 # print(session)
-    #                 if self.first_iter:
-    #                     print("Проверка новых сообщений...")
-    #                     await self.cache_trade_data(session)
-    #                     await self.hedg_temp(session)  
-
-    #             trades = await self.process_signals(session) or []
-    #             # print(messages)
-    #             # if trades:                    
-    #             #     results_order = await self.place_orders_gather(session, trades)
-    #             #     if results_order:
-    #             #         for item_response in results_order:
-    #             #             order_resp, asset_id, symbol, side = item_response
-    #             #             await self.process_order_temp(order_resp, asset_id, symbol, side)
-    #             #     # print(f"Результаты ордеров: {results_order}")                
-
-    #         except Exception as e:
-    #             self.log_error_loger(f"Ошибка в {os.path.basename(__file__)}: {e}", True)
-
-    #         finally:                
-    #             if tik_counter == 10:
-
-    #                 # Кешируем данные
-    #                 await self.cache_trade_data(session)                    
-
-    #                 # Логируем после выполнения
-    #                 self.write_logs()
-    #                 tik_counter = 0
-
-    #                 session = await close_session(session)
-
-    #             self.first_iter = False
-    #             return
-
-    #             # Пауза перед следующей итерацией
-    #             await asyncio.sleep(self.inspection_time_frame)
-
     async def start(self):
         """Инициализация и запуск логики."""
-        print("Инструкция в README.md. Настройки — в settings.json.")
-        print("Текущие настройки: ")
+        print("Запуск программы. Подробная инструкция доступна в файле README.md.")
+        print("Используемые настройки:")
         self.display_settings()
-        print()
-        await self._run()
+        print("\nИнициализация завершена.\n")
+        await self._run()        
 
 async def main():
     """Точка входа."""
     instance = MainLogic()
-    await instance.start()
+    await instance.start()   
 
 if __name__ == "__main__":
     asyncio.run(main())

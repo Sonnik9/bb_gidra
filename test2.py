@@ -547,3 +547,49 @@
 
     #     self.is_any_signal = False
     #     return trades
+
+
+
+
+# def aiohttp_connector(func):
+#     @wraps(func)
+#     async def wrapper(self, *args, **kwargs):
+#         async with aiohttp.ClientSession() as session:
+#             try:
+#                 return await func(self, session, *args, **kwargs)
+#             except Exception as ex:
+#                 print(f"{ex} in {inspect.currentframe().f_code.co_name} at line {inspect.currentframe().f_lineno}")
+#     return wrapper
+
+# async def open_session(session=None, timeout=10):
+#     """
+#     Открытие aiohttp сессии с таймаутом.
+    
+#     :param session: Существующая сессия или None.
+#     :param timeout: Время в секундах до таймаута для открытия сессии (по умолчанию 10 секунд).
+#     """
+#     if not session:
+#         try:
+#             timeout_obj = aiohttp.ClientTimeout(total=timeout)
+#             session = aiohttp.ClientSession(timeout=timeout_obj)
+#         except asyncio.TimeoutError:
+#             print(f"Ошибка: Таймаут при открытии сессии. Таймаут: {timeout} секунд.")
+#             raise
+#     return session
+
+# async def close_session(session=None, timeout=5):
+#     """
+#     Закрытие aiohttp сессии с таймаутом.
+    
+#     :param session: Сессия для закрытия.
+#     :param timeout: Время в секундах до таймаута для закрытия сессии (по умолчанию 5 секунд).
+#     """
+#     if session:
+#         try:
+#             await asyncio.wait_for(session.close(), timeout=timeout)
+#         except asyncio.TimeoutError:
+#             print(f"Ошибка: Таймаут при закрытии сессии. Таймаут: {timeout} секунд.")
+#             # Здесь можно выполнить дополнительные действия, например, принудительно закрыть сессию.
+#         finally:
+#             session = None
+#     return None
