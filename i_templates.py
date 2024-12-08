@@ -79,10 +79,10 @@ class TEMP(DataController):
                         "is_closing": False
                     })
                     self.busy_symbols_set.add(symbol)
-                    print("self.busy_symbols_set.add(symbol)")
+                    # print("self.busy_symbols_set.add(symbol)")
 
                 elif is_closing:
-                    print("is_closing template")
+                    # print("is_closing template")
                     asset_data.update({
                         "in_position": False,
                         "entry_point": 0.0,

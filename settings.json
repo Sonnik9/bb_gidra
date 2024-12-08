@@ -13,7 +13,7 @@
             "symbols": ["BTCUSDT", "ETHUSDT"],
             "symbol_black_list": ["BCHUSDT"],
             "depo": 21,
-            "leverage": 1,
+            "leverage": 2,
             "margin_type": "CROSSED",
             "indicator_number": 1,
             "indicator_1": {

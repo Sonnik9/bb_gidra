@@ -648,3 +648,16 @@
             #     print(f"self.cashe_data_book_dict: {self.cashe_data_book_dict}")
 
             # await self.cache_data_to_file(self.cashe_data_book_dict)
+
+
+
+        # async def busy_symbol_refact():
+        #     async with self.async_lock:
+        #         for asset_id, symbols in self.cashe_data_book_dict.items():
+        #             for symbol_name, val in symbols.items():
+        #                 if val.get("LONG").get("comul_qty") or val.get("SHORT").get("comul_qty"):
+        #                     self.hot_symbols[asset_id] = symbol_name
+        #                     self.busy_symbols_set.add(symbol_name)
+        #             if all(not (val.get("LONG").get("comul_qty") or val.get("SHORT").get("comul_qty")) for symbol_name, val in symbols.items()):
+        #                 self.hot_symbols[asset_id] = ""
+        #                 self.busy_symbols_set = set()

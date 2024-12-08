@@ -149,7 +149,8 @@ class MainLogic(COInN_FILTER):
             is_any_signal = False
             if self.first_iter:
                 self.klines_data_dict[asset_id] = {}
-            hot_symbol = self.hot_symbols[asset_id]          
+            # hot_symbol = self.hot_symbols[asset_id]
+            print(f"hot_symbol: {self.hot_symbols[asset_id]}")      
             api_key, api_secret = asset.get("BINANCE_API_PUBLIC_KEY"), asset.get("BINANCE_API_PRIVATE_KEY")
             indicator_number = asset.get("indicator_number")
             indicator_config = asset.get(f"indicator_{indicator_number}", {})
@@ -165,14 +166,15 @@ class MainLogic(COInN_FILTER):
 
             print(f"is_new_interval: {is_new_interval}")
 
-            if not (is_new_interval or hot_symbol):
+            if not (is_new_interval or self.hot_symbols[asset_id]):
                 continue
 
             fetch_klines_limit = int(bb_limit* 1.5) if is_new_interval else 1
             print(f"fetch_klines_limit: {fetch_klines_limit}")
             symbols = [self.hot_symbols[asset_id]] if self.hot_symbols[asset_id] else asset.get('symbols', [])
             await self.fetch_klines_for_symbols(session, asset_id, symbols, time_frame, fetch_klines_limit, api_key)
-
+            
+            hot_symbol = ""
             for symbol in symbols:
                 try:
                     tp_rate = self.cashe_data_book_dict[asset_id][symbol]["tp_rate"]
@@ -187,7 +189,8 @@ class MainLogic(COInN_FILTER):
                     # print(signals_dict)
                     await self.strategy_executer(indicator_number, signals_dict, asset_id, symbol)
                     async with self.async_lock:
-                        if self.is_any_signal and self.hot_symbols[asset_id]:                            
+                        if self.is_any_signal and self.hot_symbols[asset_id]:   
+                            hot_symbol = self.hot_symbols[asset_id]                         
                             is_any_signal = True
                             break
                
@@ -255,7 +258,7 @@ class MainLogic(COInN_FILTER):
             while not self.stop_bot:
                 try:
                     print("tik")
-                    tik_counter += 1
+                    # tik_counter += 1
 
                     if self.first_iter:
                         print("Проверка новых сообщений...")
@@ -285,7 +288,7 @@ class MainLogic(COInN_FILTER):
 
                     # Логируем после выполнения
                     self.write_logs()
-                    tik_counter = 0
+                    # tik_counter = 0
 
                     self.first_iter = False
                     self.is_any_signal = False

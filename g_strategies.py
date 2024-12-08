@@ -57,45 +57,45 @@ class INDICATORS(KlineFetcher):
         for method_name in methods_to_wrap:
             setattr(self, method_name, self.log_exceptions_decorator(getattr(self, method_name)))
 
-    # def calculate_bollinger_middle(self, df, bb_period):
-    #     df['bb_middle'] = df['Close'].rolling(window=bb_period).mean()
-    #     return df
-
-    # def calculate_bollinger_bands(self, df, bb_period, bollinger_std, suffix=''):
-    #     std_col = f'std{suffix}'
-    #     upper_col = f'bb_upper{suffix}'
-    #     lower_col = f'bb_lower{suffix}'
-    #     print(f"bollinger_std: {bollinger_std}")
-    #     df['bb_middle'] = df['Close'].rolling(window=bb_period).mean()
-    #     df[std_col] = df['Close'].rolling(window=bb_period).std()
-    #     df[upper_col] = df['bb_middle'] + (bollinger_std * df[std_col])
-    #     df[lower_col] = df['bb_middle'] - (bollinger_std * df[std_col])
-    #     return df
+    def calculate_bollinger_middle(self, df, bb_period):
+        df['bb_middle'] = df['Close'].rolling(window=bb_period).mean()
+        return df
 
     def calculate_bollinger_bands(self, df, bb_period, bollinger_std, suffix=''):
-        """
-        Вычисляем полосы Боллинджера.
-        
-        Args:
-            df (pd.DataFrame): Данные по свечам (OHLCV).
-            bollinger_std (float): Множитель стандартного отклонения.
-            suffix (str): Суффикс для уникальности имен колонок.
-        
-        Returns:
-            pd.DataFrame: DataFrame с рассчитанными полосами Боллинджера.
-        """
-        middle_col = 'bb_middle'
+        std_col = f'std{suffix}'
         upper_col = f'bb_upper{suffix}'
         lower_col = f'bb_lower{suffix}'
-        std_col = f'std{suffix}'
-
-        # Вычисляем линии Боллинджера
-        df[middle_col] = df['Close'].rolling(window=bb_period).mean()
+        # print(f"bollinger_std: {bollinger_std}")
+        df['bb_middle'] = df['Close'].rolling(window=bb_period).mean()
         df[std_col] = df['Close'].rolling(window=bb_period).std()
-        df[upper_col] = df[middle_col] + (bollinger_std * df[std_col])
-        df[lower_col] = df[middle_col] - (bollinger_std * df[std_col])
-
+        df[upper_col] = df['bb_middle'] + (bollinger_std * df[std_col])
+        df[lower_col] = df['bb_middle'] - (bollinger_std * df[std_col])
         return df
+
+    # def calculate_bollinger_bands(self, df, bb_period, bollinger_std, suffix=''):
+    #     """
+    #     Вычисляем полосы Боллинджера.
+        
+    #     Args:
+    #         df (pd.DataFrame): Данные по свечам (OHLCV).
+    #         bollinger_std (float): Множитель стандартного отклонения.
+    #         suffix (str): Суффикс для уникальности имен колонок.
+        
+    #     Returns:
+    #         pd.DataFrame: DataFrame с рассчитанными полосами Боллинджера.
+    #     """
+    #     middle_col = 'bb_middle'
+    #     upper_col = f'bb_upper{suffix}'
+    #     lower_col = f'bb_lower{suffix}'
+    #     std_col = f'std{suffix}'
+
+    #     # Вычисляем линии Боллинджера
+    #     df[middle_col] = df['Close'].rolling(window=bb_period).mean()
+    #     df[std_col] = df['Close'].rolling(window=bb_period).std()
+    #     df[upper_col] = df[middle_col] + (bollinger_std * df[std_col])
+    #     df[lower_col] = df[middle_col] - (bollinger_std * df[std_col])
+
+    #     return df
     
     def check_rate(self, rate, min_rate, strategy_number):
         if rate <= min_rate:
@@ -122,8 +122,8 @@ class INDICATORS(KlineFetcher):
             print(f"last_close_price: {last_close_price}")
             print(f"prelast_close_price: {prelast_close_price}")
 
-        # df = self.calculate_bollinger_middle(df, bb_period)
-        df = self.calculate_bollinger_bands(df, bb_period, basik_std)
+        df = self.calculate_bollinger_middle(df, bb_period)
+        # df = self.calculate_bollinger_bands(df, bb_period, basik_std)
 
         if strategy_number == 1:
             # if sl_rate is not None:
@@ -180,8 +180,9 @@ class INDICATORS(KlineFetcher):
                         "sl_short": (last_close_price > df[f'bb_upper{sl_suffix}'].iloc[-1]),
                         "sl_long": (last_close_price < df[f'bb_lower{sl_suffix}'].iloc[-1]),
                     }
-                )           
-        
+                )   
+
+        df = self.calculate_bollinger_bands(df, bb_period, basik_std)
         signals_dict.update(
             {
                 "upper_cross": (last_close_price > df[f'bb_upper'].iloc[-1]),
@@ -264,15 +265,15 @@ class Strategiess(INDICATORS):
                 await self.process_position(
                     "SHORT", "is_closing", "Закрываем шорт по стоп-лоссу", asset_id, symbol
                 )
-       
-        else:
-            # Открытие новых позиций
-            if signals_dict["middle_long_cross"] or signals_dict["middle_short_cross"]:
-                # print("is candidate to open pos")
+
+        # Открытие новых позиций
+        if signals_dict["middle_long_cross"] or signals_dict["middle_short_cross"]:
+            # print("is candidate to open pos")
+            if not in_position_long:
                 await self.process_position(
                     "LONG", "is_opening", "Открываем новую лонг позицию", asset_id, symbol
                 )
-       
+            if not in_position_short:
                 await self.process_position(
                     "SHORT", "is_opening", "Открываем новую шорт позицию", asset_id, symbol
                 )

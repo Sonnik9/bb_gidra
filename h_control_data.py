@@ -178,11 +178,17 @@ class DataController(Strategiess):
 
         async def busy_symbol_refact():
             async with self.async_lock:
+                self.busy_symbols_set = set()
                 for asset_id, symbols in self.cashe_data_book_dict.items():
-                    for symbol_name, val in symbols.items():
-                        if val.get("LONG").get("comul_qty") or val.get("SHORT").get("comul_qty"):
-                            self.hot_symbols[asset_id] = symbol_name
-                            self.busy_symbols_set.add(symbol_name)
+                    # Найти первый символ с ненулевыми значениями LONG или SHORT
+                    hot_symbol = next(
+                        (symbol_name for symbol_name, val in symbols.items() 
+                        if val.get("LONG", {}).get("comul_qty") or val.get("SHORT", {}).get("comul_qty")), 
+                        ""
+                    )
+                    self.hot_symbols[asset_id] = hot_symbol
+                    if hot_symbol:
+                        self.busy_symbols_set.add(hot_symbol)
 
         if self.cashe_data_book_dict:              
             await self.check_position_data(session)  

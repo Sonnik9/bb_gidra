@@ -1,0 +1,80 @@
+Asset Id: 1. symbol: BNBUSDT. Открываем новую лонг позицию. Время: 2024-12-08 02:40:07
+Asset Id: 1. symbol: BNBUSDT. Открываем новую шорт позицию. Время: 2024-12-08 02:40:07
+Asset Id: 1. Символ: BNBUSDT. Время создания ордера: 2024-12-08 02:40:07
+orderId: 63783196109
+symbol: BNBUSDT
+positionSide: LONG
+side: BUY
+executedQty: 0.03
+avgPrice: 752.39000
+Asset Id: 1. Символ: BNBUSDT. Время создания ордера: 2024-12-08 02:40:07
+orderId: 63783196110
+symbol: BNBUSDT
+positionSide: SHORT
+side: SELL
+executedQty: 0.03
+avgPrice: 752.38000
+Asset Id: 1. symbol: BNBUSDT. Открываем новую лонг позицию. Время: 2024-12-08 02:41:05
+Asset Id: 1. symbol: BNBUSDT. Открываем новую шорт позицию. Время: 2024-12-08 02:41:05
+Asset Id: 1. Символ: BNBUSDT. Время создания ордера: 2024-12-08 02:41:06
+orderId: 63783212867
+symbol: BNBUSDT
+positionSide: LONG
+side: BUY
+executedQty: 0.03
+avgPrice: 752.11000
+Asset Id: 1. Символ: BNBUSDT. Время создания ордера: 2024-12-08 02:41:06
+orderId: 63783212861
+symbol: BNBUSDT
+positionSide: SHORT
+side: SELL
+executedQty: 0.03
+avgPrice: 752.10000
+Asset Id: 1. symbol: DOGEUSDT. Открываем новую лонг позицию. Время: 2024-12-08 02:43:02
+Asset Id: 1. symbol: DOGEUSDT. Открываем новую шорт позицию. Время: 2024-12-08 02:43:02
+Asset Id: 1. Символ: DOGEUSDT. Время создания ордера: 2024-12-08 02:43:03
+orderId: 58299420596
+symbol: DOGEUSDT
+positionSide: LONG
+side: BUY
+executedQty: 46
+avgPrice: 0.455510
+Asset Id: 1. Символ: DOGEUSDT. Время создания ордера: 2024-12-08 02:43:03
+orderId: 58299420594
+symbol: DOGEUSDT
+positionSide: SHORT
+side: SELL
+executedQty: 46
+avgPrice: 0.455500
+Asset Id: 1. symbol: DOGEUSDT. Открываем новую лонг позицию. Время: 2024-12-08 02:44:06
+Asset Id: 1. symbol: DOGEUSDT. Открываем новую шорт позицию. Время: 2024-12-08 02:44:06
+Asset Id: 1. Символ: DOGEUSDT. Время создания ордера: 2024-12-08 02:44:07
+orderId: 58299522836
+symbol: DOGEUSDT
+positionSide: LONG
+side: BUY
+executedQty: 46
+avgPrice: 0.455800
+Asset Id: 1. Символ: DOGEUSDT. Время создания ордера: 2024-12-08 02:44:07
+orderId: 58299522837
+symbol: DOGEUSDT
+positionSide: SHORT
+side: SELL
+executedQty: 46
+avgPrice: 0.455790
+Asset Id: 1. symbol: DOGEUSDT. Открываем новую лонг позицию. Время: 2024-12-08 02:44:34
+Asset Id: 1. symbol: DOGEUSDT. Открываем новую шорт позицию. Время: 2024-12-08 02:44:34
+Asset Id: 1. Символ: DOGEUSDT. Время создания ордера: 2024-12-08 02:44:35
+orderId: 58299570227
+symbol: DOGEUSDT
+positionSide: LONG
+side: BUY
+executedQty: 46
+avgPrice: 0.456110
+Asset Id: 1. Символ: DOGEUSDT. Время создания ордера: 2024-12-08 02:44:35
+orderId: 58299570214
+symbol: DOGEUSDT
+positionSide: SHORT
+side: SELL
+executedQty: 46
+avgPrice: 0.456100
