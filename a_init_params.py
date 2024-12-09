@@ -109,8 +109,6 @@ class VARIABLES(ConfigManager):
     exchange_data = []
     cashe_data_book_dict = {}
     klines_data_dict = {}
-    busy_symbols_set = set()
-    # all_active_symbols_set = set()  
     hot_symbols = {}
     is_any_signal = False
 

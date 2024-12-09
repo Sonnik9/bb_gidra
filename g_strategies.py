@@ -16,7 +16,7 @@ class KlineFetcher(BINANCE_API):
         for method_name in methods_to_wrap:
             setattr(self, method_name, self.log_exceptions_decorator(getattr(self, method_name)))
 
-    async def fetch_klines_for_symbols(self, session, asset_id, symbols, interval, fetch_limit=1, api_key=None):
+    async def fetch_klines_for_symbols(self, session, asset_id, symbols, interval, fetch_limit=1, suffix="", api_key=None):
         """
         Асинхронно получает свечи для списка символов и обновляет их в словаре.
         """
@@ -33,6 +33,7 @@ class KlineFetcher(BINANCE_API):
 
         # Обновляем словарь клиньев
         for symbol, new_klines in results:
+            symbol = f"{symbol}{suffix}"
             if isinstance(new_klines, pd.DataFrame) and not new_klines.empty:
                 # Если fetch_limit == 1, обновляем последний элемент
                 if fetch_limit == 1 and symbol in self.klines_data_dict.get(asset_id, {}):
@@ -71,31 +72,6 @@ class INDICATORS(KlineFetcher):
         df[upper_col] = df['bb_middle'] + (bollinger_std * df[std_col])
         df[lower_col] = df['bb_middle'] - (bollinger_std * df[std_col])
         return df
-
-    # def calculate_bollinger_bands(self, df, bb_period, bollinger_std, suffix=''):
-    #     """
-    #     Вычисляем полосы Боллинджера.
-        
-    #     Args:
-    #         df (pd.DataFrame): Данные по свечам (OHLCV).
-    #         bollinger_std (float): Множитель стандартного отклонения.
-    #         suffix (str): Суффикс для уникальности имен колонок.
-        
-    #     Returns:
-    #         pd.DataFrame: DataFrame с рассчитанными полосами Боллинджера.
-    #     """
-    #     middle_col = 'bb_middle'
-    #     upper_col = f'bb_upper{suffix}'
-    #     lower_col = f'bb_lower{suffix}'
-    #     std_col = f'std{suffix}'
-
-    #     # Вычисляем линии Боллинджера
-    #     df[middle_col] = df['Close'].rolling(window=bb_period).mean()
-    #     df[std_col] = df['Close'].rolling(window=bb_period).std()
-    #     df[upper_col] = df[middle_col] + (bollinger_std * df[std_col])
-    #     df[lower_col] = df[middle_col] - (bollinger_std * df[std_col])
-
-    #     return df
     
     def check_rate(self, rate, min_rate, strategy_number):
         if rate <= min_rate:
@@ -116,44 +92,44 @@ class INDICATORS(KlineFetcher):
         signals_dict = {}
         last_close_price = df["Close"].iloc[-1]        
         prelast_close_price = df["Close"].iloc[-2]
-        if self.hot_symbols["1"]:
-            print(df)
-            print(f"symbol: {self.hot_symbols["1"]}")
-            print(f"last_close_price: {last_close_price}")
-            print(f"prelast_close_price: {prelast_close_price}")
+        # if self.hot_symbols["1"]:
+        #     print(df)
+        #     print(f"symbol: {self.hot_symbols["1"]}")
+        #     print(f"last_close_price: {last_close_price}")
+        #     print(f"prelast_close_price: {prelast_close_price}")
 
         df = self.calculate_bollinger_middle(df, bb_period)
         # df = self.calculate_bollinger_bands(df, bb_period, basik_std)
 
         if strategy_number == 1:
-            # if sl_rate is not None:
-            #     if not self.check_rate(self, sl_rate, 0, strategy_number):
-            #         return {}
+            if sl_rate is not None:
+                if not self.check_rate(self, sl_rate, 0, strategy_number):
+                    return {}
                 
-            #     sl_suffix = f'_sl_{sl_rate}'
-            #     df = self.calculate_bollinger_bands(df, bb_period, basik_std * sl_rate, suffix=sl_suffix)
+                sl_suffix = f'_sl_{sl_rate}'
+                df = self.calculate_bollinger_bands(df, bb_period, basik_std * sl_rate, suffix=sl_suffix)
 
-            #     signals_dict.update(
-            #         {
-            #             "sl_short": (last_close_price > df[f'bb_upper{sl_suffix}'].iloc[-1]),
-            #             "sl_long": (last_close_price < df[f'bb_lower{sl_suffix}'].iloc[-1]),
-            #         }
-            #     )
+                signals_dict.update(
+                    {
+                        "sl_short": (last_close_price > df[f'bb_upper{sl_suffix}'].iloc[-1]),
+                        "sl_long": (last_close_price < df[f'bb_lower{sl_suffix}'].iloc[-1]),
+                    }
+                )
                 
-            # if tp_rate is not None:
-            #     if not self.check_rate(self, tp_rate, 0, strategy_number):
-            #         return {}
+            if tp_rate is not None:
+                if not self.check_rate(self, tp_rate, 0, strategy_number):
+                    return {}
                 
-            #     tp_suffix = f'_tp_{tp_rate}'            
-            #     df = self.calculate_bollinger_bands(df, bb_period, basik_std * tp_rate, suffix=tp_suffix)
+                tp_suffix = f'_tp_{tp_rate}'            
+                df = self.calculate_bollinger_bands(df, bb_period, basik_std * tp_rate, suffix=tp_suffix)
 
-            #     signals_dict.update(
-            #         {
-            #             "tp_long": (last_close_price > df[f'bb_upper{tp_suffix}'].iloc[-1]),
-            #             "tp_short": (last_close_price < df[f'bb_lower{tp_suffix}'].iloc[-1]),
-            #         }
+                signals_dict.update(
+                    {
+                        "tp_long": (last_close_price > df[f'bb_upper{tp_suffix}'].iloc[-1]),
+                        "tp_short": (last_close_price < df[f'bb_lower{tp_suffix}'].iloc[-1]),
+                    }
 
-            #     )
+                )
 
             signals_dict.update(
                 {
@@ -204,27 +180,44 @@ class Strategiess(INDICATORS):
         for method_name in methods_to_wrap:
             setattr(self, method_name, self.log_exceptions_decorator(getattr(self, method_name)))
 
+    async def _handle_retrade(self, asset_id, symbol, position_type):
+        """
+        Обрабатывает противоположное действие при уникальном сигнале "retrade".
+        """
+        opposite_position_type = "SHORT" if position_type == "LONG" else "LONG"
+
+        async with self.async_lock:
+            self.cashe_data_book_dict[asset_id][symbol][opposite_position_type]["is_opening"] = True
+
+        # Логируем событие retrade
+        self.log_info_loger(
+            f"Asset Id: {asset_id}. Symbol: {symbol}. Opening position in opposite direction. "
+            f"Time: {self.get_date_time_now(self.tz_location)}", 
+            True
+        )
+
     async def process_position(self, position_type, action, signal_reason, asset_id, symbol, unik_action=None):
         """
         Обрабатывает действия с позициями (открытие/закрытие).
         """
+        # Проверяем конфликт символов в горячих символах
         async with self.async_lock:
+            if self.hot_symbols and any(asset_id != ass_id and symbol == s for ass_id, s in self.hot_symbols.items()):
+                return
+
+            # Обновляем состояние сигналов и данных
             self.is_any_signal = True
             self.hot_symbols[asset_id] = symbol
             self.cashe_data_book_dict[asset_id][symbol][position_type][action] = True
 
+        # Логируем основное событие
         self.log_info_loger(
-            f"Asset Id: {asset_id}. symbol: {symbol}. {signal_reason}. Время: {self.get_date_time_now(self.tz_location)}"
+            f"Asset Id: {asset_id}. Symbol: {symbol}. {signal_reason}. Time: {self.get_date_time_now(self.tz_location)}"
         )
 
+        # Обрабатываем уникальное действие, если указано
         if unik_action == "retrade":
-            new_position_type = "SHORT" if position_type == "LONG" else "LONG"
-            async with self.async_lock:
-                self.cashe_data_book_dict[asset_id][symbol][new_position_type]["is_opening"] = True
-            self.log_info_loger(
-                f"Asset Id: {asset_id}. symbol: {symbol}. И открываем позицию в противоположном направлении. Время: {self.get_date_time_now(self.tz_location)}",
-                True
-            )
+            await self._handle_retrade(asset_id, symbol, position_type)
    
     async def strategy_1(self, signals_dict, asset_id, symbol):
         """

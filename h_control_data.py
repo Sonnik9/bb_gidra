@@ -178,7 +178,7 @@ class DataController(Strategiess):
 
         async def busy_symbol_refact():
             async with self.async_lock:
-                self.busy_symbols_set = set()
+                # self.busy_symbols_set = set()
                 for asset_id, symbols in self.cashe_data_book_dict.items():
                     # Найти первый символ с ненулевыми значениями LONG или SHORT
                     hot_symbol = next(
@@ -187,8 +187,8 @@ class DataController(Strategiess):
                         ""
                     )
                     self.hot_symbols[asset_id] = hot_symbol
-                    if hot_symbol:
-                        self.busy_symbols_set.add(hot_symbol)
+                    # if hot_symbol:
+                    #     self.busy_symbols_set.add(hot_symbol)
 
         if self.cashe_data_book_dict:              
             await self.check_position_data(session)  

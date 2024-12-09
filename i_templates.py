@@ -78,7 +78,7 @@ class TEMP(DataController):
                         "is_opening": False,
                         "is_closing": False
                     })
-                    self.busy_symbols_set.add(symbol)
+                    # self.busy_symbols_set.add(symbol)
                     # print("self.busy_symbols_set.add(symbol)")
 
                 elif is_closing:
@@ -96,7 +96,7 @@ class TEMP(DataController):
             short_in_position = self.cashe_data_book_dict[asset_id][symbol]["SHORT"]["in_position"]
             if not (long_in_position or short_in_position):
                 print(f"{symbol} is discard")
-                self.busy_symbols_set.discard(symbol)
+                # self.busy_symbols_set.discard(symbol)
                 self.hot_symbols[asset_id] = ""
                 asset_data["entry_point"] = 0.0
                 asset_data["comul_qty"] = 0.0

@@ -124,9 +124,7 @@ class COInN_FILTER(TEMP):
                     asset["symbols"] = filter_symbols
         # print(self.assets_dict)
 
-class MainLogic(COInN_FILTER):
-    """Главный класс логики."""
-
+class TradingSignalManager(COInN_FILTER):
     def __init__(self):
         super().__init__()
         self._decorate_methods_with_logging()
@@ -141,132 +139,217 @@ class MainLogic(COInN_FILTER):
             original_method = getattr(self, method_name)
             setattr(self, method_name, self.log_exceptions_decorator(original_method))
 
-    async def process_signals(self, session):
-        """Ищем торговые сигналы и интегрируем их в структуру данных."""
+    async def process_positions(self, asset_id, asset, api_key, api_secret):
+        """Обработка позиций и формирование торговых действий."""
         trades = []
 
-        for asset_id, asset in self.assets_dict.items():  
-            is_any_signal = False
+        hot_symbol = self.hot_symbols.get(asset_id)
+        if not hot_symbol:
+            return trades
+
+        async with self.async_lock:
+            position_data = self.cashe_data_book_dict[asset_id][hot_symbol]
+            margin_type = asset.get("margin_type")
+            leverage = asset.get("leverage")
+
+            for pos_side, actions in (("LONG", ("is_opening", "is_closing")), 
+                                    ("SHORT", ("is_opening", "is_closing"))):
+                if position_data[pos_side][actions[0]]:
+                    side, action = ("BUY", "Opening") if pos_side == "LONG" else ("SELL", "Opening")
+                elif position_data[pos_side][actions[1]]:
+                    side, action = ("SELL", "Closing") if pos_side == "LONG" else ("BUY", "Closing")
+                else:
+                    continue
+
+                trade_qty = 0.0
+                if action == "Opening":
+                    precision = position_data["qty_precision"]
+                    depo = asset.get("depo")
+                    cur_price = self.klines_data_dict[asset_id][hot_symbol]["Close"].iloc[-1]
+                    trade_qty = self.usdt_to_qnt_converter(depo, cur_price, precision)
+                elif action == "Closing":
+                    trade_qty = position_data[pos_side].get("comul_qty", 0.0)
+
+                if trade_qty:
+                    trades.append({
+                        "asset_id": asset_id,
+                        "symbol": hot_symbol,
+                        "margin_type": margin_type,
+                        "leverage": leverage,
+                        "api_key": api_key,
+                        "api_secret": api_secret,
+                        "side": side,
+                        "position_side": pos_side,
+                        "qty": trade_qty
+                    })
+                else:
+                    self.log_error_loger(f"Ошибка расчета объема для {hot_symbol}, asset_id: {asset_id}")
+
+        return trades 
+
+    def get_time_frame(self, asset_id, indicator_config, indicator_number):
+        """Получить таймфрейм для анализа."""
+        if self.hot_symbols.get(asset_id) or indicator_number == 1:
+            return indicator_config.get("tfr_main")
+        return indicator_config.get("tfr_3")
+
+    def get_symbols(self, asset_id):
+        """Получить список символов для анализа."""
+        hot_symbol = self.hot_symbols.get(asset_id)
+        if hot_symbol:
+            return [hot_symbol]
+        return self.assets_dict[asset_id].get('symbols', [])   
+            
+    async def validate_and_searching_signals(
+        self, symbol, suffix, asset_id, indicator_number, bb_limit, std_rate
+    ):
+        """
+        Проверка наличия данных свечей, расчет сигналов и выполнение стратегии.
+        """
+        tp_rate = self.cashe_data_book_dict[asset_id][symbol]["tp_rate"]
+        sl_rate = self.cashe_data_book_dict[asset_id][symbol]["sl_rate"]
+        if not self.hot_symbols[asset_id]:
+            tp_rate, sl_rate = None, None
+
+        df = self.klines_data_dict[asset_id].get(f"{symbol}{suffix}")       
+        if df is None or df.empty:
+            self.log_error_loger(f"Нет данных свечей для {symbol}, asset_id: {asset_id}")
+            return False
+
+        # Рассчитываем сигналы
+        signals_dict = await self.calculate_signals(df, indicator_number, bb_limit, std_rate, sl_rate, tp_rate)
+        await self.strategy_executer(indicator_number, signals_dict, asset_id, symbol)
+        return True
+
+    async def strategy_2_confirmation(
+        self, session, symbol, asset_id, indicator_number, indicator_config, 
+        bb_limit, std_rate, bb_to_klines_limit, api_key
+    ):
+        """
+        Ищем подтверждения сигнала Боллинджера на других тайм-фреймах для стратегии 2.
+        """
+        confirmation_counter = 0
+
+        for i in range(2, 0, -1):  # Таймфреймы от tfr_2 до tfr_1 включительно
+
+            time_frame = indicator_config.get(f"tfr_{i}")
+            if not time_frame:
+                continue  # Пропускаем, если таймфрейм не указан
+
+            suffix = f"_tfr_{i}"
+            
+            # Получаем свечи
+            await self.fetch_klines_for_symbols(session, asset_id, [symbol], time_frame, bb_to_klines_limit, suffix, api_key)
+            
+            result = await self.validate_and_searching_signals(
+                symbol, suffix, asset_id, indicator_number, bb_limit, std_rate
+            )
+            if not result:
+                return False
+
+            # Проверяем статус сигналов
+            async with self.async_lock:
+                if self.is_any_signal and self.hot_symbols[asset_id]:
+                    confirmation_counter += 1
+                    if confirmation_counter == 2:  # Если сигналы подтверждены на двух таймфреймах
+                        return True
+
+                    self.hot_symbols[asset_id] = ""  # Сбрасываем статус горячего символа
+                    self.is_any_signal = False
+
+        return False  # Если не найдено двух подтверждений 
+
+    async def process_candidate_symbol(self, session, asset_id, symbol, suffix, indicator_number, indicator_config, 
+                                    bb_limit, std_rate, bb_to_klines_limit, api_key):
+        
+        """Обработка одного символа."""
+
+        result = await self.validate_and_searching_signals(
+            symbol, suffix, asset_id, indicator_number, bb_limit, std_rate
+        )
+        if not result:
+            return False
+
+        async with self.async_lock:
+            if self.is_any_signal and self.hot_symbols[asset_id]:
+                if indicator_number == 1:  # Для стратегии 1 подтверждение на одном таймфрейме
+                    return True
+                elif indicator_number == 2:  # Для стратегии 2 подтверждение на нескольких таймфреймах
+                    if await self.strategy_2_confirmation(
+                        session, symbol, asset_id, 
+                        indicator_number, indicator_config, 
+                        bb_limit, std_rate, 
+                        bb_to_klines_limit, api_key
+                        ):
+                        return True
+                    self.hot_symbols[asset_id] = ""
+                    self.is_any_signal = False
+
+            return False
+
+    async def process_signals(self, session):
+        """Ищем торговые сигналы и интегрируем их в структуру данных."""
+        for asset_id, asset in self.assets_dict.items():
             if self.first_iter:
                 self.klines_data_dict[asset_id] = {}
-            # hot_symbol = self.hot_symbols[asset_id]
-            print(f"hot_symbol: {self.hot_symbols[asset_id]}")      
-            api_key, api_secret = asset.get("BINANCE_API_PUBLIC_KEY"), asset.get("BINANCE_API_PRIVATE_KEY")
+
+            api_key = asset.get("BINANCE_API_PUBLIC_KEY")
+            api_secret = asset.get("BINANCE_API_PRIVATE_KEY")
             indicator_number = asset.get("indicator_number")
             indicator_config = asset.get(f"indicator_{indicator_number}", {})
-            
-            time_frame = indicator_config.get("tfr_main")
             bb_limit = indicator_config.get("bb_period")
             std_rate = indicator_config.get("std_rate")
-            
+
+            # Определяем таймфрейм
+            time_frame = self.get_time_frame(asset_id, indicator_config, indicator_number)
             if not self.interval_seconds:
                 self.interval_seconds = self.interval_to_seconds("1m")
-                # print(self.interval_seconds)
-            is_new_interval = self.is_new_interval()
 
-            print(f"is_new_interval: {is_new_interval}")
-
-            if not (is_new_interval or self.hot_symbols[asset_id]):
+            if not (self.is_new_interval() or self.hot_symbols.get(asset_id)):
                 continue
 
-            fetch_klines_limit = int(bb_limit* 1.5) if is_new_interval else 1
-            print(f"fetch_klines_limit: {fetch_klines_limit}")
-            symbols = [self.hot_symbols[asset_id]] if self.hot_symbols[asset_id] else asset.get('symbols', [])
-            await self.fetch_klines_for_symbols(session, asset_id, symbols, time_frame, fetch_klines_limit, api_key)
-            
-            hot_symbol = ""
+            bb_to_klines_limit = int(bb_limit * 1.5)
+            fetch_klines_limit = bb_to_klines_limit if self.is_new_interval() else 1
+            symbols = self.get_symbols(asset_id)
+
+            await self.fetch_klines_for_symbols(session, asset_id, symbols, time_frame, fetch_klines_limit, "", api_key)
+
             for symbol in symbols:
                 try:
-                    tp_rate = self.cashe_data_book_dict[asset_id][symbol]["tp_rate"]
-                    sl_rate = self.cashe_data_book_dict[asset_id][symbol]["sl_rate"]
-                    df = self.klines_data_dict[asset_id].get(symbol)
-
-                    if df is None or df.empty:
-                        self.log_error_loger(f"Нет данных свечей для {symbol}, asset_id: {asset_id}")
-                        continue
-
-                    signals_dict = await self.calculate_signals(df, indicator_number, bb_limit, std_rate, sl_rate, tp_rate)
-                    # print(signals_dict)
-                    await self.strategy_executer(indicator_number, signals_dict, asset_id, symbol)
-                    async with self.async_lock:
-                        if self.is_any_signal and self.hot_symbols[asset_id]:   
-                            hot_symbol = self.hot_symbols[asset_id]                         
-                            is_any_signal = True
-                            break
-               
+                    if await self.process_candidate_symbol(
+                        session, asset_id, symbol, "", 
+                        indicator_number, indicator_config, 
+                        bb_limit, std_rate, bb_to_klines_limit, api_key
+                        ):
+                        break
                 except KeyError as e:
-                    # print(f"Ошибка обработки {symbol}: {e}")
                     self.log_error_loger(f"Ошибка обработки {symbol}: {e}")
-                    continue
-            
-            # print(f"self.is_any_signal: {self.is_any_signal}")
-            # print(f"self.hot_symbols[asset_id]: {self.hot_symbols[asset_id]}")
-            async with self.async_lock:
-                if not is_any_signal:
-                    continue
 
-                position_data = self.cashe_data_book_dict[asset_id][hot_symbol]
-                margin_type = asset.get("margin_type")
-                leverage = asset.get("leverage")
+        return await self.process_positions(asset_id, asset, api_key, api_secret)
 
-                for pos_side, actions in (("LONG", ("is_opening", "is_closing")), 
-                                        ("SHORT", ("is_opening", "is_closing"))):
-                    if position_data[pos_side][actions[0]]:
-                        side, action = ("BUY", "Opening") if pos_side == "LONG" else ("SELL", "Opening")
-                    elif position_data[pos_side][actions[1]]:
-                        side, action = ("SELL", "Closing") if pos_side == "LONG" else ("BUY", "Closing")
-                    else:
-                        continue
-
-                    trade_qty = 0.0
-                    if action == "Opening" and hot_symbol not in self.busy_symbols_set:
-                        precision = position_data["qty_precision"]
-                        depo = asset.get("depo")
-                        cur_price = self.klines_data_dict[asset_id][hot_symbol]["Close"].iloc[-1]
-                        trade_qty = self.usdt_to_qnt_converter(depo, cur_price, precision)
-                    elif action == "Closing":
-                        trade_qty = position_data[pos_side].get("comul_qty", 0.0)
-
-                    if trade_qty:
-                        # print(f"trade_qty: {trade_qty}")
-                        trades.append({
-                            "asset_id": asset_id,
-                            "symbol": hot_symbol,
-                            "margin_type": margin_type,
-                            "leverage": leverage,
-                            "api_key": api_key,
-                            "api_secret": api_secret,
-                            "side": side,
-                            "position_side": pos_side,
-                            "qty": trade_qty
-                        })
-                    else:
-                        self.log_error_loger(f"Ошибка расчета объема для {hot_symbol}, asset_id: {asset_id}")
-        
-        return trades
+class MainLogic(TradingSignalManager):
+    """Главный класс логики."""
 
     async def _run(self):
         """Основной цикл выполнения."""
         if self.is_bible_quotes_introduction:
             print(f"\n{generate_bible_quote()}")
 
-        tik_counter = 0       
+        # tik_counter = 0       
 
         async with aiohttp.ClientSession() as session:
+            # await self.hedg_temp(session)
             await self.update_filtered_symbols(session)
+            print("Проверка новых сообщений...")
 
             while not self.stop_bot:
                 try:
                     print("tik")
-                    # tik_counter += 1
 
-                    if self.first_iter:
-                        print("Проверка новых сообщений...")
+                    if self.first_iter:                        
                         for _ in range(2):
                             await self.cache_trade_data(session)
-                        # await self.hedg_temp(session)
-                    # print(f"main.py   self.cashe_data_book_dict: {self.cashe_data_book_dict}")
-                    # return
+
                     trades = await self.process_signals(session) or []
                     trades = [trd for trd in trades if trd]
 
@@ -282,13 +365,12 @@ class MainLogic(COInN_FILTER):
                     self.log_error_loger(f"Ошибка в {os.path.basename(__file__)}: {e}", True)
 
                 finally:
-                    # if tik_counter == 10:
+
                     # Кешируем данные
                     await self.cache_trade_data(session)
 
                     # Логируем после выполнения
                     self.write_logs()
-                    # tik_counter = 0
 
                     self.first_iter = False
                     self.is_any_signal = False
@@ -300,10 +382,10 @@ class MainLogic(COInN_FILTER):
 
     async def start(self):
         """Инициализация и запуск логики."""
-        # print("Запуск программы. Подробная инструкция доступна в файле README.md.")
-        # print("Используемые настройки:")
-        # self.display_settings()
-        # print("\nИнициализация завершена.\n")
+        print("Запуск программы. Подробная инструкция доступна в файле README.md.")
+        print("Используемые настройки:")
+        self.display_settings()
+        print("\nИнициализация завершена.\n")
         await self._run()        
 
 async def main():
